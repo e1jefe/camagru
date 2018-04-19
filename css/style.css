@@ -1,0 +1,124 @@
+* { padding: 0; margin: 0; }
+body { background: #F0FFFF; letter-spacing: 1px;}
+
+header {
+    text-align: justify;
+    height: 3em;
+    padding: 3em 5%;
+    background: #2c3e50;
+    color: #fff;
+}
+
+header::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+}
+
+header div,
+header div:before,
+header nav,
+header div h1 {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+header div {
+    height: 100%;
+}
+
+header ::before {
+    content: '';
+    height: 100%;
+}
+
+header h1 {
+    font-size: 3em;
+    margin: auto 0;
+
+}
+
+header nav a {
+    padding: 0.0.6em;
+    white-space: nowrap;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+
+}
+header nav{
+    float: right;
+}
+header nav a:last-child {
+    padding-right: 0;
+}
+h1 a{
+    text-decoration: none;
+    color: white;
+    font-family: 'Trattatello', fantasy;
+}
+@media screen and (max-width: 720px){
+    header {
+        height: auto;
+    }
+
+    header ,
+    header  h1,
+    header nav {
+        height: auto;
+        width: auto;
+        display: block;
+        text-align: center;
+    }
+}
+footer{
+    position: absolute;
+    bottom: 0;
+}
+footer .container {
+    position: relative;
+    padding: 0 10px;
+}
+.btn-home {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    display: flex;
+    width: 55px;
+    opacity: 0.5;
+}
+.btn-home a {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.btn-home a img {
+    width: 100%;
+}
+.btn-home:hover{
+    opacity: 1;
+}
+.main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100px;
+}
+.main .left{
+    width: 20%;
+    background-color: darkred;
+}
+.main .right {
+    width: 20%;
+    background-color: slateblue;
+    display: flex;
+    flex-direction: column;
+}
+.main .middle {
+    width: 60%;
+    background-color: aqua;
+}
+
+
+
