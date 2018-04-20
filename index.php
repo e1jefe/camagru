@@ -81,7 +81,7 @@
     }
 </script>
 
-<!--<video id="localVideo" autoplay muted></video>-->
+<video id="localVideo" autoplay muted></video>
 <script>
     var photo = document.getElementsByClassName('btn-photo');
     photo[0].addEventListener('click', function () {
@@ -95,7 +95,9 @@
         );
 
         function gotStream(stream) {
-            document.getElementById("localVideo").src = URL.createObjectURL(stream);
+            var okno = document.getElementById("localVideo");
+            okno.style.display = "block";
+            okno.src = URL.createObjectURL(stream);
 
             pc = new PeerConnection(null);
             pc.addStream(stream);
