@@ -3,10 +3,12 @@ body { background: #F0FFFF; letter-spacing: 1px;}
 
 header {
     text-align: justify;
-    height: 3em;
-    padding: 3em 5%;
+    padding: 0.5em 1%;
     background: #2c3e50;
     color: #fff;
+    position: fixed;
+    z-index: 10000;
+    width: 100%;
 }
 
 header::after {
@@ -18,14 +20,10 @@ header::after {
 header div,
 header div:before,
 header nav,
-header div h1 {
+header h1 {
     display: inline-block;
     vertical-align: middle;
     text-align: left;
-}
-
-header div {
-    height: 100%;
 }
 
 header ::before {
@@ -33,22 +31,22 @@ header ::before {
     height: 100%;
 }
 
-header h1 {
-    font-size: 3em;
-    margin: auto 0;
-
+h1 {
+    margin: 0;
 }
-
 header nav a {
     padding: 0.0.6em;
-    white-space: nowrap;
     text-transform: uppercase;
     text-decoration: none;
     color: white;
+    font-size: calc( (50vw - 30rem)/(80 - 30) * (1.5 - 1) + 1rem);
+    font-family:  Arial;
 
 }
 header nav{
-    float: right;
+    display: inline-block;
+    width: 45%;
+    margin-right: 4%;
 }
 header nav a:last-child {
     padding-right: 0;
@@ -57,7 +55,10 @@ h1 a{
     text-decoration: none;
     color: white;
     font-family: 'Trattatello', fantasy;
+    font-size: 1.5em;
+    display: inline-block;
 }
+
 @media screen and (max-width: 720px){
     header {
         height: auto;
@@ -67,34 +68,78 @@ h1 a{
     header  h1,
     header nav {
         height: auto;
-        width: auto;
+        /*width: auto;*/
         display: block;
         text-align: center;
     }
 }
-footer{
-    position: absolute;
-    bottom: 0;
+
+
+img{
+    width: 30%;
 }
-footer .container {
-    position: relative;
+
+footer.container {
     padding: 0 10px;
+    position: fixed;
+    bottom: 0;
+    z-index: 100000;
+    background-color: #2c3e50;
+    width: 100%;
+}
+.btn-photo{
+    position: fixed;
+    top:10%;
+    left: 2%;
+    display: inline-block;
+    width: 70px;
+    height: 30px;
+    opacity: 0.3;
+}
+.btn-photo a img {
+    width: 100%;
+    display: block;
+}
+.btn-photo:hover {
+    opacity: 1;
+}
+.btn-folder{
+    position: fixed;
+    top:20%;
+    left: 2%;
+    display: inline-block;
+    width: 70px;
+    height: 30px;
+    opacity: 0.3;
+}
+.btn-folder a img {
+    width: 100%;
+    display: block;
+}
+.btn-folder:hover {
+    opacity: 1;
 }
 .btn-home {
     position: fixed;
-    bottom: 5%;
+    bottom: 2%;
+    display: inline-block;
     right: 5%;
-    display: flex;
-    width: 55px;
-    opacity: 0.5;
+    /*display: flex;*/
+    width: 40px;
+    opacity: 0.3;
 }
 .btn-home a {
-    display: flex;
-    flex-direction: column;
+    /*display: flex;*/
+    /*flex-direction: column;*/
     width: 100%;
 }
 .btn-home a img {
     width: 100%;
+    display: block;
+}
+.copyrights {
+    display: inline-block;
+    color: #fff;
 }
 .btn-home:hover{
     opacity: 1;
@@ -106,19 +151,47 @@ footer .container {
     min-height: 100px;
 }
 .main .left{
-    width: 20%;
-    background-color: darkred;
+    width: 10%;
+    background-color: #F0FFFF;
 }
 .main .right {
     width: 20%;
-    background-color: slateblue;
+    background-color: #F0FFFF;
     display: flex;
     flex-direction: column;
 }
 .main .middle {
-    width: 60%;
-    background-color: aqua;
+    width: 70%;
+    flex-direction: column;
+    text-align: center;
 }
 
+.gallery img{
+    margin:5px; /* внешние отступы картинок */
+    border:3px solid #fff; /* рамка картинок */
+}
+ a.photo:hover img{
+     border:3px solid #034F80; /* изменение цвета рамки при наведении на картинку */
+ }
+.hovergallery img{
+    -webkit-transform:scale(0.8); /*Webkit: уменьшаем размер до 0.8*/
+    -moz-transform:scale(0.8); /*Mozilla: масштабирование*/
+    -o-transform:scale(0.8); /*Opera: масштабирование*/
+    -webkit-transition-duration: 0.5s; /*Webkit: длительность анимации*/
+    -moz-transition-duration: 0.5s; /*Mozilla: длительность анимации*/
+    -o-transition-duration: 0.5s; /*Opera: длительность анимации*/
+    opacity: 0.7; /*Начальная прозрачность изображений*/
+    margin: 0 10px 5px 0; /*Интервалы между изображениями*/
+}
 
+.hovergallery img:hover{
+    -webkit-transform:scale(1.1); /*Webkit: увеличиваем размер до 1.2x*/
+    -moz-transform:scale(1.1); /*Mozilla: масштабирование*/
+    -o-transform:scale(1.1); /*Opera: масштабирование*/
+    box-shadow:0px 0px 30px gray; /*CSS3 тени: 30px размытая тень вокруг всего изображения*/
+    -webkit-box-shadow:0px 0px 30px gray; /*Webkit: тени*/
+    -moz-box-shadow:0px 0px 30px gray; /*Mozilla: тени*/
+    opacity: 1;
+}
 
+#localVideo { display: none; width: 50%; position: absolute; right: 15.1em; bottom: 10em; border: 1px solid #333; background: #000; }
