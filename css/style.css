@@ -94,7 +94,7 @@ footer.container {
     display: inline-block;
     width: 70px;
     height: 30px;
-    opacity: 0.3;
+    opacity: 0.6;
 }
 .btn-photo a img {
     width: 100%;
@@ -170,9 +170,9 @@ footer.container {
     margin:5px; /* внешние отступы картинок */
     border:3px solid #fff; /* рамка картинок */
 }
- a.photo:hover img{
-     border:3px solid #034F80; /* изменение цвета рамки при наведении на картинку */
- }
+a.photo:hover img{
+    border:3px solid #034F80; /* изменение цвета рамки при наведении на картинку */
+}
 .hovergallery img{
     -webkit-transform:scale(0.8); /*Webkit: уменьшаем размер до 0.8*/
     -moz-transform:scale(0.8); /*Mozilla: масштабирование*/
@@ -194,4 +194,9 @@ footer.container {
     opacity: 1;
 }
 
-#localVideo { display: none; width: 50%; position: absolute; right: 15.1em; bottom: 10em; border: 1px solid #333; background: #000; }
+#snapshot{
+    position: fixed;
+    top:16%;
+    left: 2%;
+    display: inline-block;
+}
