@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/authorization.css">
-    <title>Fructo</title>
+    <title>Camagru</title>
 </head>
 <?php
 Include "header.php";
