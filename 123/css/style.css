@@ -155,13 +155,13 @@ footer.container {
     background-color: #F0FFFF;
 }
 .main .right {
-    width: 20%;
+    width: 10%;
     background-color: #F0FFFF;
     display: flex;
     flex-direction: column;
 }
 .main .middle {
-    width: 70%;
+    width: 80%;
     flex-direction: column;
     text-align: center;
 }
