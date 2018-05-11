@@ -15,13 +15,13 @@
     <div class="left">
         <div class="btn-photo">
             <a class="btn-photo" onclick="">
-                <img src="/123/img/img/camera.png">
+                <img src="/img/camera.png">
             </a>
         </div>
         <div class="btn-folder">
             <a>
                 <label for="file-input">
-                    <img src="/123/img/img/catalog.png"/>
+                    <img src="/img/catalog.png"/>
                 </label>
 
                 <input id="file-input" style="display:none;" type="file"/>
@@ -30,17 +30,17 @@
     </div>
     <div class="middle">
         <div class="hovergallery">
-            <img src="/123/img/img/1a.jpg">
-            <img src="/123/img/img/2a.jpg">
-            <img src="/123/img/img/3a.jpg">
-            <img src="/123/img/img/4a.jpg">
-            <img src="/123/img/img/5a.jpg">
-            <img src="/123/img/img/6a.jpg">
-            <img src="/123/img/img/7a.jpg">
-            <img src="/123/img/img/8a.jpg">
-            <img src="/123/img/img/9a.jpg">
-            <img src="/123/img/img/10a.jpg">
-            <img src="/123/img/img/11a.jpg">
+            <img src="/img/1a.jpg">
+            <img src="/img/2a.jpg">
+            <img src="/img/3a.jpg">
+            <img src="/img/4a.jpg">
+            <img src="/img/5a.jpg">
+            <img src="/img/6a.jpg">
+            <img src="/img/7a.jpg">
+            <img src="/img/8a.jpg">
+            <img src="/img/9a.jpg">
+            <img src="/img/10a.jpg">
+            <img src="/img/11a.jpg">
         </div>
     </div>
 

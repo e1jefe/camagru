@@ -7,10 +7,12 @@ use core\Controller;
 class MainController extends Controller{
 
     public function indexAction(){
+        $result = $this->model->getNews();
         $vars = [
-            'name' => 'Nick',
-            'age' => 21,
+            'news' => $result,
+
         ];
         $this->view->render('Main page', $vars);
+
     }
 }

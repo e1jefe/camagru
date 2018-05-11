@@ -3,7 +3,6 @@
 
 namespace core;
 
-
  class View
  {
 
@@ -18,11 +17,36 @@ namespace core;
      }
 
      public function render($title, $vars = [])
-     {
+     { $path = 'views/' . $this->path . '.php';
          extract($vars);
-         ob_start();
-         require 'views/' . $this->path . '.php';
-         $content = ob_get_clean();
-         require 'views/layouts/' . $this->layout . '.php';
+         if (file_exists($path)) {
+             ob_start();
+             require $path;
+             $content = ob_get_clean();
+             require 'views/layouts/' . $this->layout . '.php';
+         } else {
+             View::errorCode(404);
+         }
+     }
+
+     public function redirect($url){
+         header('location: '.$url);
+         exit ;
+     }
+
+     public static function errorCode($code){
+         http_response_code($code);
+         $path = 'views/errors/' . $code . '.php';
+         if (file_exists($path) ){
+             require $path;
+         }
+         exit;
+     }
+     public function message($status, $message){
+         exit(json_encode(['status' => $status, 'message' => $message]));
+     }
+
+     public function location($url){
+         exit(json_encode(['url' => $url]));
      }
  }
