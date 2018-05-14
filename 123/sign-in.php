@@ -19,14 +19,14 @@ Include "header.php";
 ?>
 <section class="login-page">
     <div class="form">
-        <form class="login-form" action="authorise.php" method="post">
+        <form class="login-form" action="authorize.php" method="post">
             <p class="register-form_title">
                 Sign in
             </p>
             <input type="text" name="login" placeholder="username" value="" />
             <input type="password" name="passwd" placeholder="password" value="" />
             <button name="submit" value="OK" />login</button>
-            <p class="message">Not registered? <a href="create1.php">Create an account</a></p>
+            <p class="message">Not registered? <a href="create.php">Create an account</a></p>
         </form>
     </div>
 </section>

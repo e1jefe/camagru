@@ -97,7 +97,7 @@ else
         if ($error !== 1)
         {
             echo $message;
-            header("refresh:2;url=index.php");
+            header("refresh:2;url=sign-in.php");
         }
         else
         {

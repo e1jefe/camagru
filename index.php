@@ -1,19 +1,13 @@
+
 <?php
-
 require 'lib/Dev.php';
-
 use core\Router;
-
 spl_autoload_register(function($class) {
-//    include 'classes/' . $class . '.class.php';
-   $path = str_replace('\\', '/', $class. '.php');
-   if (file_exists($path)) {
-       require $path;
-   }
+    $path = str_replace('\\', '/', $class.'.php');
+    if (file_exists($path)) {
+        require $path;
+    }
 });
-
-
 session_start();
-
-$router  = new Router();
+$router = new Router;
 $router->run();

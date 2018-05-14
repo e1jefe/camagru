@@ -1,7 +1,9 @@
 <?php
+
+
 return [
     'all' => [
-        'index',
+        'login',
     ],
     'authorize' => [
         //
@@ -10,6 +12,10 @@ return [
         //
     ],
     'admin' => [
-        //
+        'posts',
+        'logout',
+        'add',
+        'edit',
+        'delete',
     ],
 ];
