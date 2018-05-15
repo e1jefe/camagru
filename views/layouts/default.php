@@ -21,7 +21,7 @@
     </div>
     <div class="btn-home">
         <a onclick="up()">
-            <img src="img/arrow.png">
+            <img src="/public/images/arrow.png">
         </a>
     </div>
 

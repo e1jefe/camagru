@@ -4,9 +4,12 @@ use core\Controller;
 use lib\Pagination;
 use models\Admin;
 class MainController extends Controller {
+    /**
+     *
+     */
     public function indexAction() {
         $pagination = new Pagination($this->route, $this->model->postsCount());
-//        $i = 0;
+        $i = 0;
 //        while ($i < 10)
 //        {
 //            $arr = $this->model->getPics();
@@ -16,20 +19,16 @@ class MainController extends Controller {
 //        }
         $arr = $this->model->getPics();
 
-//        var_dump($arr);
-//
-//        foreach ($arr as $item)
-//        {
-////            print_r($item);
-//            print($item['source']);
-//
-//            $i++;
-//        }
-//print_r($arr_pic);
+//        debug($arr);
+
+        while ($i < count($arr))
+            {
+                    $vars[] = ($arr[$i]['source']);
+                $i++;
+            }
+            print_r($vars);
         $vars = [
-//            'pagination' => $pagination->get(),
-//            'list' => $this->model->postsList($this->route),
-            'src' => $arr,
+            'src' => $vars,
         ];
         $this->view->render('index', $vars);
     }

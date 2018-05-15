@@ -33,11 +33,10 @@ class Main extends Model {
 
     public function getPics()
     {
-        print_r($this->db->query('SELECT * FROM pics'));
-//        for ($i = 0; $i < $col; $i++) {
-//            $res[$i] = $this->db->fetchColumn($i);
-//        }
-//    return $res;
+        //print_r($this->db->query('SELECT * FROM pics'));
+         $pics = $this->db->row('SELECT source FROM pics');
+        return $pics;
+//       $sql = 'SELECT name, color, calories FROM fruit ORDER BY name';
     }
 
 }
