@@ -9,12 +9,14 @@ header {
     position: fixed;
     z-index: 10000;
     width: 100%;
+    top: 0;
 }
 
 header::after {
     content: '';
     display: inline-block;
     width: 100%;
+
 }
 
 header div,
@@ -29,6 +31,7 @@ header h1 {
 header ::before {
     content: '';
     height: 100%;
+
 }
 
 h1 {
@@ -45,8 +48,8 @@ header nav a {
 }
 header nav{
     display: inline-block;
-    width: 45%;
-    margin-right: 4%;
+    width: 40%;
+    margin-right: -10%;
 }
 header nav a:last-child {
     padding-right: 0;
@@ -145,6 +148,7 @@ footer.container {
     opacity: 1;
 }
 .main {
+   margin-top: 100px;
     display: flex;
     flex-direction: row;
     width: 100%;

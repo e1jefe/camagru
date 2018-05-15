@@ -53,7 +53,7 @@ else
         minimum-scale=1,
         maximum-scale=1,
         user-scalable=0"/>
-    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="../public/styles/fonts.css">
     <style>
         body{
             background: #F0FFFF; /* fallback for old browsers */

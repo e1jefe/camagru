@@ -76,8 +76,8 @@
         minimum-scale=1,
         maximum-scale=1,
         user-scalable=0"/>
-    <link rel="stylesheet" href="css/fonts.css">
-    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="../public/styles/fonts.css">
+    <link rel="stylesheet" href="../public/styles/style1.css">
     <style>
         body{
             background: #2c3e50; /* fallback for old browsers */

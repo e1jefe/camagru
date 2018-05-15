@@ -9,27 +9,17 @@ class MainController extends Controller {
      */
     public function indexAction() {
         $pagination = new Pagination($this->route, $this->model->postsCount());
-        $i = 0;
-//        while ($i < 10)
-//        {
-//            $arr = $this->model->getPics();
-//            print($arr);
-//            $arr_pic[$i] = $arr;
-//            $i++;
-//        }
-        $arr = $this->model->getPics();
-
-//        debug($arr);
-
-        while ($i < count($arr))
-            {
-                    $vars[] = ($arr[$i]['source']);
-                $i++;
-            }
-            print_r($vars);
-        $vars = [
-            'src' => $vars,
-        ];
+//        $i = 0;
+        $vars = $this->model->getPics();
+//        while ($i < count($arr))
+//            {
+//                    $vars[] = ($arr[$i]['source']);
+//                $i++;
+//            }
+//            print_r($vars);
+//        $vars = [
+//            'src' => $vars,
+//        ];
         $this->view->render('index', $vars);
     }
     public function aboutAction() {
@@ -54,5 +44,8 @@ class MainController extends Controller {
             'data' => $adminModel->postData($this->route['id'])[0],
         ];
         $this->view->render('Пост', $vars);
+    }
+    public function authorizeAction(){
+
     }
 }

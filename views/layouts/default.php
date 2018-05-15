@@ -8,11 +8,10 @@
 </head>
 <body>
 <header>
-    <h1><a href="index.php" class="ssilka">Camagru</a></h1>
-    <nav><a href="http://instagram.com">Your page</a><a>Tralala</a><a href="authorize.php">login/signup</a></nav>
+    <h1><a href="/" class="ssilka">Camagru</a></h1>
+    <nav><a href="http://instagram.com">Your page</a><a>Tralala</a><a href="main/login">login/signup</a></nav>
 </header>
 <?php echo $content; ?>
-<hr>
 <footer class="container">
     <div class="copyrights">
         <p>
@@ -24,7 +23,6 @@
             <img src="/public/images/arrow.png">
         </a>
     </div>
-
 </footer>
 </body>
 </html>

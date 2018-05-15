@@ -7,7 +7,7 @@ class Main extends Model {
     public function contactValidate($post) {
         $nameLen = iconv_strlen($post['name']);
         $textLen = iconv_strlen($post['text']);
-        if ($nameLen < 3 or $nameLen > 20) {
+        if ($nameLen < 2 or $nameLen > 20) {
             $this->error = 'Имя должно содержать от 3 до 20 символов';
             return false;
         } elseif (!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
@@ -19,10 +19,10 @@ class Main extends Model {
         }
         return true;
     }
-    public function postsCount() {
+    public function picCount() {
         return $this->db->column('SELECT COUNT(id) FROM posts');
     }
-    public function postsList($route) {
+    public function picList($route) {
         $max = 10;
         $params = [
             'max' => $max,
@@ -35,8 +35,13 @@ class Main extends Model {
     {
         //print_r($this->db->query('SELECT * FROM pics'));
          $pics = $this->db->row('SELECT source FROM pics');
-        return $pics;
-//       $sql = 'SELECT name, color, calories FROM fruit ORDER BY name';
+        $i = 0;
+        while ($i < count($pics))
+        {
+            $vars[] = ($pics[$i]['source']);
+            $i++;
+        }
+        return $vars;
     }
 
 }

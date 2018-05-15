@@ -21,6 +21,10 @@ return [
         'controller' => 'main',
         'action' => 'post',
     ],
+    'authorize' => [
+        'controller' => 'main',
+        'action' => 'authorize',
+    ],
     // AdminController
     'admin/login' => [
         'controller' => 'admin',
@@ -49,5 +53,10 @@ return [
     'admin/posts' => [
         'controller' => 'admin',
         'action' => 'posts',
+    ],
+    // UserController
+    'main/login' => [
+        'controller' => 'user',
+        'action' => 'login',
     ],
 ];
