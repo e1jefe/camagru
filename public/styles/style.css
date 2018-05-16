@@ -38,7 +38,7 @@ h1 {
     margin: 0;
 }
 header nav a {
-    padding: 0.0.6em;
+    padding: 0.0.3em;
     text-transform: uppercase;
     text-decoration: none;
     color: white;
@@ -49,7 +49,7 @@ header nav a {
 header nav{
     display: inline-block;
     width: 40%;
-    margin-right: -10%;
+    margin-right: -5%;
 }
 header nav a:last-child {
     padding-right: 0;

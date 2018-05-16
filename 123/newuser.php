@@ -11,7 +11,6 @@
 		user-scalable=0"/>
     <link rel="stylesheet" href="../public/styles/fonts.css">
     <link rel="stylesheet" href="../public/styles/style1.css">
-    <link rel="stylesheet" href="css/authorization.css">
     <title>Camagru</title>
 </head>
 <?php
@@ -25,7 +24,6 @@ Include "header.php";
             </p>
             <input type="text" name="login" placeholder="username" value="" />
             <input type="password" name="passwd" placeholder="password" value=""/>
-            <input type="phone" name="phone-nbr" placeholder="+380*******" value=""/>
             <input type="email" name="email" placeholder="email" value=""/>
             <input type="text" name="name" placeholder="Name: only latin letters" value=""/>
             <button name="submit" value="OK" />create</button>

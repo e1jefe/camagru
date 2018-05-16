@@ -59,4 +59,12 @@ return [
         'controller' => 'user',
         'action' => 'login',
     ],
+    'main/registration' => [
+        'controller' => 'user',
+        'action' => 'registration',
+    ],
+    'user/emailVerification/(.*)' => [
+        'controller' => 'user',
+        'action' => 'emailVerification',
+    ]
 ];

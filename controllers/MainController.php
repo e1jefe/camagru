@@ -8,18 +8,8 @@ class MainController extends Controller {
      *
      */
     public function indexAction() {
-        $pagination = new Pagination($this->route, $this->model->postsCount());
-//        $i = 0;
+        //$pagination = new Pagination($this->route, $this->model->postsCount());
         $vars = $this->model->getPics();
-//        while ($i < count($arr))
-//            {
-//                    $vars[] = ($arr[$i]['source']);
-//                $i++;
-//            }
-//            print_r($vars);
-//        $vars = [
-//            'src' => $vars,
-//        ];
         $this->view->render('index', $vars);
     }
     public function aboutAction() {
