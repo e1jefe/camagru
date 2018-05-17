@@ -9,12 +9,54 @@ class UserController extends Controller
     {
         $this->view->layout = 'user';
         $this->view->render('Login');
+        $connection = new Db;
+        if (isset($_POST['login']) && isset($_POST['passwd'])) {
 
+            $login = ($_POST['login']);
+            $password = (hash('whirlpool', ($_POST['passwd'])));
+
+            // делаем запрос к БД
+            // и ищем юзера с таким логином и паролем
+
+            $query = $connection->query("SELECT `id` FROM `users` WHERE `user_login`='{$login}' AND `user_password`='{$password}' LIMIT 1");
+
+
+            // если такой пользователь нашелся
+            if (mysql_num_rows($sql) == 1) {
+                // то мы ставим об этом метку в сессии (допустим мы будем ставить ID пользователя)
+
+                $row = mysql_fetch_assoc($sql);
+                $_SESSION['user_id'] = $row['id'];
+
+                // не забываем, что для работы с сессионными данными, у нас в каждом скрипте должно присутствовать session_start();
+            } else {
+                die('Login not found');
+            }
+        }
+
+        if (isset($_SESSION['user_id'])) {
+            // показываем защищенные от гостей данные.
+        } else {
+            die('Access denied.');
+        }
     }
 
     public function emailVerificationAction()
     {
-        echo 'Im verifying email';
+        $this->view->layout = 'user';
+        $this->view->render('Login');
+        $connection = new Db;
+        $login = $_GET['login'];
+        $token = $_GET['token'];
+        $res = $connection->row("SELECT * FROM users WHERE user_login= '$login'");
+        if ($res != null){
+           if ($res[0]['user_token'] == $token)
+            {
+                $connection->query("UPDATE users SET email_confirmd ='1' WHERE user_login='$login'");
+            }
+            echo "<script>alert(\"Email verified\");</script>";
+            header("Refresh:2; login"); exit();
+        }
     }
 
     public function registrationAction()
@@ -31,16 +73,18 @@ class UserController extends Controller
             # check login
             if(!preg_match("/^[a-zA-Z0-9]+$/", $login))
             {
-                $err[] = "Enter latinic char and numbers only";
+                $err[] = "Enter latynic char and numbers only";
             }
 
             if(strlen($login) < 3 or strlen($login) > 30)
             {
+                echo "<script>alert(\"Login must be more than 3 and less than 30 char\");</script>";
                 $err[] = "Login must be more than 3 and less than 30 char";
             }
             if(strcmp($_POST['passwd'], $_POST['confpasswd'] ))
             {
                 $err[] = "Password does not match";
+                echo "<script>alert(\"Password does not match\");</script>";
 
             }
             # check matching login
@@ -50,6 +94,7 @@ class UserController extends Controller
             //$query = mysql_query("SELECT COUNT(user_id) FROM users WHERE user_login='".mysql_real_escape_string($_POST['login'])."'");
             if($res != null || $res2 != null)
             {
+                echo "<script>alert(\"User with this login/email already register\");</script>";
                 $err[] = "User with this login/email already register";
             }
 
@@ -63,7 +108,7 @@ class UserController extends Controller
                 $connection->query("INSERT INTO users (user_login, user_password, email, email_confirmd, user_token
 )
 VALUES ('$login', '$password', '$email', 0, '$token')");
-//                mysql_query("INSERT INTO users SET user_login='".$login."', user_password='".$password."'");
+
                 //For sending mail
                 $encoding = "utf-8";
                 $mail_subject = "Verification";
@@ -86,21 +131,17 @@ VALUES ('$login', '$password', '$email', 0, '$token')");
                 $header .= "Date: ".date("r (T)")." \r\n";
                 $header .= iconv_mime_encode("Subject", $mail_subject, $subject_preferences);
 
-                $mail_message = '
+                $mail_message = '<html>
                 <p>Hi,</p>
                 <p>Thanks for register.</p>
                 <p>Pls, activate your account via this <a href="http://localhost:8082/user/emailVerification?login='.$login.'&token='.$token.'">link</a></p>
-                ';
-                // Mail header
+                <p>Best regards! Camagru team.</p>
+                </html>'
+                ;
 
                 // Send mail
-                echo $email;
-                $a = mail($email, $mail_subject, $mail_message, $header);
-
-                var_dump($a);
-
-                die;
-                print "<b>Registration success</b><br>";
+                mail($email, $mail_subject, $mail_message, $header);
+                echo "<script>alert(\"Registration success, check your email\");</script>";
                 header("Location: login"); exit();
             }
             else

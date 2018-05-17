@@ -4,13 +4,16 @@ return [
         'index',
         'login',
         'registration',
-        'user'
+        'user',
+        'emailVerification'
     ],
     'authorize' => [
         //
     ],
     'guest' => [
-        //
+        'index',
+        'login',
+        'registration',
     ],
     'admin' => [
         //

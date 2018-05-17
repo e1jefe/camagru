@@ -42,29 +42,18 @@ return [
         'controller' => 'admin',
         'action' => 'edit',
     ],
-    'admin/delete/{id:\d+}' => [
-        'controller' => 'admin',
-        'action' => 'delete',
-    ],
-    'admin/posts/{page:\d+}' => [
-        'controller' => 'admin',
-        'action' => 'posts',
-    ],
-    'admin/posts' => [
-        'controller' => 'admin',
-        'action' => 'posts',
-    ],
+
     // UserController
-    'main/login' => [
+    'user/login' => [
         'controller' => 'user',
         'action' => 'login',
     ],
-    'main/registration' => [
+    'user/registration' => [
         'controller' => 'user',
         'action' => 'registration',
     ],
-    'user/emailVerification/(.*)' => [
+    'user/emailVerification(.*)' => [
         'controller' => 'user',
         'action' => 'emailVerification',
-    ]
+    ],
 ];

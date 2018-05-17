@@ -9,6 +9,7 @@ return [
     'guest' => [
         'register',
         'login',
+        'emailVerification'
     ],
     'admin' => [
         //
