@@ -30,7 +30,7 @@
         </p>
     </div>
     <div class="btn-home">
-        <a onclick="up()">
+        <a href="javascript:scroll(0,0)" >
             <img src="/public/images/arrow.png">
         </a>
     </div>
