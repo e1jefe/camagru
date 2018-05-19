@@ -56,4 +56,8 @@ return [
         'controller' => 'user',
         'action' => 'emailVerification',
     ],
+    'user/logout' => [
+        'controller' => 'user',
+        'action' => 'logout',
+    ],
 ];

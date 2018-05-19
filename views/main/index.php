@@ -1,5 +1,6 @@
     <div class="main">
         <div class="left">
+            <?php if(isset($_SESSION['login'])): ?>
             <div class="btn-photo">
                 <a class="btn-photo" onclick="">
                     <img src="/public/images/camera.png">
@@ -14,6 +15,7 @@
                     <input id="file-input" style="display:none;" type="file"/>
                 </a>
             </div>
+            <?php endif; ?>
         </div>
         <div class="middle">
             <div class="hovergallery">
@@ -30,6 +32,7 @@
 
         <div class="right"></div>
     </div>
+    <?php if(isset($_SESSION['login'])): ?>
     <video autoplay muted></video>
     <script>
         var photo = document.getElementsByClassName('btn-photo');
@@ -68,4 +71,4 @@
             ctx.drawImage(video,0,0,640,480);
         }
     </script>
-
+    <?php endif; ?>

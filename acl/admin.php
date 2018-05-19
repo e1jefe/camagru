@@ -4,6 +4,7 @@
 return [
     'all' => [
         'login',
+        'logout'
     ],
     'authorize' => [
         //

@@ -79,7 +79,7 @@ h1 a{
 
 
 img{
-    width: 30%;
+    width: 40%;
 }
 
 footer.container {
@@ -178,9 +178,9 @@ a.photo:hover img{
     border:3px solid #034F80; /* изменение цвета рамки при наведении на картинку */
 }
 .hovergallery img{
-    -webkit-transform:scale(0.8); /*Webkit: уменьшаем размер до 0.8*/
-    -moz-transform:scale(0.8); /*Mozilla: масштабирование*/
-    -o-transform:scale(0.8); /*Opera: масштабирование*/
+    -webkit-transform:scale(0.9); /*Webkit: уменьшаем размер до 0.8*/
+    -moz-transform:scale(0.9); /*Mozilla: масштабирование*/
+    -o-transform:scale(0.9); /*Opera: масштабирование*/
     -webkit-transition-duration: 0.5s; /*Webkit: длительность анимации*/
     -moz-transition-duration: 0.5s; /*Mozilla: длительность анимации*/
     -o-transition-duration: 0.5s; /*Opera: длительность анимации*/
@@ -214,14 +214,14 @@ a.photo:hover img{
 .register-form_title {
     font-weight: bold;
     font-size: 20px;
-    margin: 0 auto 5px;
+    margin: auto;
 }
 
 .form {
     position: relative;
     z-index: 1;
     max-width: 360px;
-    margin: 0 auto 100px;
+    margin: 100px auto 100px;
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);

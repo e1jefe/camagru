@@ -9,7 +9,18 @@
 <body>
 <header>
     <h1><a href="/" class="ssilka">Camagru</a></h1>
-    <nav><a href="http://instagram.com">Your page</a><a>Tralala</a><a href="user/login">login/signup</a></nav>
+    <nav><a href="http://instagram.com">Your page</a><a>Tralala</a>
+        <?php if(isset($_SESSION['login'])): ?>
+            <a href="">
+                <?php echo $_SESSION['login']?>
+            </a>
+            <a href="user/logout">
+                Logout
+            </a>
+        <?php else: ?>
+            <a href="user/login">login/signup</a>
+        <?php endif; ?>
+    </nav>
 </header>
 <?php echo $content; ?>
 <footer class="container">

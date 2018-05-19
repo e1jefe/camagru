@@ -5,7 +5,8 @@ return [
         'login',
         'registration',
         'user',
-        'emailVerification'
+        'emailVerification',
+        'logout'
     ],
     'authorize' => [
         //
@@ -14,6 +15,7 @@ return [
         'index',
         'login',
         'registration',
+        'logout'
     ],
     'admin' => [
         //
