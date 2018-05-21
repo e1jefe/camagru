@@ -156,9 +156,7 @@ class UserController extends Controller
             $token = substr($str2, 0, 7);
             var_dump($token);
             if ($email == $res[0]['email']) {
-                echo "ZDES";
-                $connection->query("UPDATE users SET $token WHERE email= '$email'");
-                echo "TYT";
+                $connection->query("UPDATE users SET '$token' WHERE email= '$email'");
                 $encoding = "utf-8";
                 $mail_subject = "Recovery password";
                 $from_name = "Camagru";

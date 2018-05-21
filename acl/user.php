@@ -8,7 +8,8 @@ return [
         'emailVerification',
         'logout',
         'newpassword',
-        'passwordrecovery'
+        'passwordrecovery',
+        'changepassmail'
     ],
     'authorize' => [
         //
@@ -18,7 +19,8 @@ return [
         'login',
         'registration',
         'logout',
-        'passwordrecovery'
+        'passwordrecovery',
+        'changepassmail'
     ],
     'admin' => [
         //

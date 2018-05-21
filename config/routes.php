@@ -64,4 +64,8 @@ return [
     'controller' => 'user',
     'action' => 'passwordrecovery',
         ],
+    'user/changepassmail' => [
+        'controller' => 'user',
+        'action' => 'changepassmail',
+    ],
 ];
