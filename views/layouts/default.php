@@ -9,8 +9,9 @@
 <body>
 <header>
     <h1><a href="/" class="ssilka">Camagru</a></h1>
-    <nav><a href="http://instagram.com">Your page</a><a>Tralala</a>
+    <nav>
         <?php if(isset($_SESSION['login'])): ?>
+            <a>Your account:</a>
             <a href="">
                 <?php echo $_SESSION['login']?>
             </a>

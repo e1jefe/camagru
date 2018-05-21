@@ -8,7 +8,7 @@
             <input type="password" name="passwd" placeholder="password" value="" />
             <button name="submit" value="OK" />login</button>
             <p class="message">Not registered? <a href="registration">Create your account</a></p>
-            <p class="message"><a href="">Forgot password?</a></p>
+            <p class="message"><a href="passwordrecovery">Forgot password?</a></p>
         </form>
     </div>
 </section>

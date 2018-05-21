@@ -97,7 +97,7 @@ class UserController extends Controller
             # register if no err
             if(count($err) == 0)
             {
-                $str = '1234567890qwertyuiopasdf';
+                $str = '1234567890qwertyuiopasdfghjklzxcvbnm';
                 $str2 = str_shuffle($str);
                 $token = substr($str2, 0, 7);
                 $password = (hash('whirlpool', ($_POST['passwd'])));
@@ -107,7 +107,7 @@ class UserController extends Controller
                 $encoding = "utf-8";
                 $mail_subject = "Verification";
                 $from_name = "Camagru";
-                $from_mail = "dsheptun@student.unit.ua";
+                $from_mail = "mail@camagru.dsheptun.live";
                 // Set preferences for Subject field
                 $subject_preferences = array(
                     "input-charset" => $encoding,
@@ -143,5 +143,75 @@ class UserController extends Controller
             }
         }
 
+    }
+    public function passwordrecoveryAction() {
+        $connection = new Db;
+        $this->view->render('passwordrecovery');
+        if(isset($_POST['submit'])) {
+            $email = $_POST['email'];
+            $res = $connection->row("SELECT * FROM users WHERE email='$email'");
+            var_dump($res);
+            $str = '1234567890qwertyuiopasdfghjklzxcvbnm';
+            $str2 = str_shuffle($str);
+            $token = substr($str2, 0, 7);
+            var_dump($token);
+            if ($email == $res[0]['email']) {
+                echo "ZDES";
+                $connection->query("UPDATE users SET $token WHERE email= '$email'");
+                echo "TYT";
+                $encoding = "utf-8";
+                $mail_subject = "Recovery password";
+                $from_name = "Camagru";
+                $from_mail = "mail@camagru.dsheptun.live";
+                // Set preferences for Subject field
+                $subject_preferences = array(
+                    "input-charset" => $encoding,
+                    "output-charset" => $encoding,
+                    "line-length" => 76,
+                    "line-break-chars" => "\r\n"
+                );
+                // Set mail header
+                $header = "Content-type: text/html; charset=" . $encoding . " \r\n";
+                $header .= "From: " . $from_name . " <" . $from_mail . "> \r\n";
+                $header .= "MIME-Version: 1.0 \r\n";
+                $header .= "Content-Transfer-Encoding: 8bit \r\n";
+                $header .= "Date: " . date("r (T)") . " \r\n";
+                $header .= iconv_mime_encode("Subject", $mail_subject, $subject_preferences);
+                $mail_message = ' <!doctype html> <html>
+                <p>Hi,</p>
+                <p>Follow this <a href="http://localhost:8082/user/changepassmail?email=' . $email . '&token=' . $token . '">link</a> for recover password.</p>
+                <p>If you did not want to change the password, ignore this email.</p>
+                <p>Camagru support team.</p>
+                </html>';
+                // Send mail
+                mail($email, $mail_subject, $mail_message, $header);
+                echo "<script>alert(\"Check your mail\");</script>";
+                header("Location: login"); exit();
+            }
+        }
+
+    }
+    public function changepassmailAction()
+    {
+        $this->view->render('changepassmail');
+        $connection = new Db;
+        $email = $_GET['email'];
+        $token = $_GET['token'];
+        $pass = (hash('whirlpool', ($_POST['pass'])));
+        $newpass = (hash('whirlpool', ($_POST['newpass'])));
+                $res = $connection->row("SELECT * FROM users WHERE user_email= '$email'");
+        if ($res != null){
+            if ($res[0]['user_token'] == $token && $res[0]['email'] == $email)
+            {
+                if($pass == $newpass){
+                    $connection->query("INSERT INTO users (user_password)VALUES ('$newpass')");
+                }
+                else {
+                    echo "<script>alert(\"Password don't match\");</script>";}
+            }
+            echo "<script>alert(\"Password changed\");</script>";
+            unset($_SESSION['login']);
+            header("Refresh:2; login"); exit();
+        }
     }
 }

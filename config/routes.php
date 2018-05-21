@@ -60,4 +60,8 @@ return [
         'controller' => 'user',
         'action' => 'logout',
     ],
+    'user/passwordrecovery' => [
+    'controller' => 'user',
+    'action' => 'passwordrecovery',
+        ],
 ];

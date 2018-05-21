@@ -10,7 +10,14 @@ class View {
     }
     public function render($title, $vars = []) {
         extract($vars);
-        $path = 'views/'.$this->path.'.php';
+        if ($title != $this->route['action'])
+        {
+            $path = 'views/'.$this->route['controller'].'/'.$title.'.php';
+        }
+        else
+        {
+            $path = 'views/' . $this->path . '.php';
+        }
         if (file_exists($path)) {
             ob_start();
             require $path;
