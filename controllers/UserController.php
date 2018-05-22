@@ -150,13 +150,11 @@ class UserController extends Controller
         if(isset($_POST['submit'])) {
             $email = $_POST['email'];
             $res = $connection->row("SELECT * FROM users WHERE email='$email'");
-            var_dump($res);
             $str = '1234567890qwertyuiopasdfghjklzxcvbnm';
             $str2 = str_shuffle($str);
             $token = substr($str2, 0, 7);
-            var_dump($token);
             if ($email == $res[0]['email']) {
-                $connection->query("UPDATE users SET '$token' WHERE email= '$email'");
+                $connection->query("UPDATE users SET user_token='$token' WHERE email= '$email'");
                 $encoding = "utf-8";
                 $mail_subject = "Recovery password";
                 $from_name = "Camagru";
