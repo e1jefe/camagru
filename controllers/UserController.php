@@ -185,29 +185,45 @@ class UserController extends Controller
                 header("Location: login"); exit();
             }
         }
+        else if(isset($_GET['email']))
+        {
+
+
+        }
 
     }
-    public function changepassmailAction()
-    {
-        $this->view->render('changepassmail');
-        $connection = new Db;
-        $email = $_GET['email'];
-        $token = $_GET['token'];
-        $pass = (hash('whirlpool', ($_POST['pass'])));
-        $newpass = (hash('whirlpool', ($_POST['newpass'])));
-                $res = $connection->row("SELECT * FROM users WHERE user_email= '$email'");
-        if ($res != null){
-            if ($res[0]['user_token'] == $token && $res[0]['email'] == $email)
-            {
-                if($pass == $newpass){
-                    $connection->query("INSERT INTO users (user_password)VALUES ('$newpass')");
-                }
-                else {
-                    echo "<script>alert(\"Password don't match\");</script>";}
-            }
-            echo "<script>alert(\"Password changed\");</script>";
-            unset($_SESSION['login']);
-            header("Refresh:2; login"); exit();
-        }
-    }
+//    public function changepassmailAction()
+//    {
+//        $this->view->render('changepassmail');
+//        $connection = new Db;
+//        var_dump($_POST);
+//        echo "<br>after post";
+//        if(isset($_POST['submit'])){
+//            echo "<p>This is GET</p>";
+//            var_dump($_GET);
+//            $email = $_GET['email'];
+//            $token = $_GET['token'];
+//
+//            $pass = (hash('whirlpool', ($_POST['pass'])));
+//            $newpass = (hash('whirlpool', ($_POST['newpass'])));
+//                $res = $connection->row("SELECT * FROM users WHERE user_email= '$email'");
+//                echo "<br>";
+//                var_dump($res);
+//        if ($res != null) {
+//            if ($res[0]['user_token'] == $token && $res[0]['email'] == $email) {
+//                var_dump($res[0]['user_token']);
+//                var_dump($res[0]['email']);
+//                if ($pass == $newpass) {
+//                    $connection->query("UPDATE users SET user_password='$pass' WHERE email= '$email'");
+//                } else {
+//                    echo "<script>alert(\"Password don't match\");</script>";
+//                }
+//            }
+//            echo "<script>alert(\"Password changed\");</script>";
+//            header("Refresh:2; login");
+//            exit();
+//        }
+//                 echo "<script>alert(\"Enter password\");</script>";
+//    }
+//    }
 }

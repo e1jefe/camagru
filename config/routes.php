@@ -64,7 +64,7 @@ return [
     'controller' => 'user',
     'action' => 'passwordrecovery',
         ],
-    'user/changepassmail' => [
+    'user/changepassmail(.*)' => [
         'controller' => 'user',
         'action' => 'changepassmail',
     ],

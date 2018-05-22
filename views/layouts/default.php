@@ -19,7 +19,7 @@
                 Logout
             </a>
         <?php else: ?>
-            <a href="user/login">login/signup</a>
+            <a href="user/login">login / sign up</a>
         <?php endif; ?>
     </nav>
 </header>
