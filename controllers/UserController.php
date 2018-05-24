@@ -3,6 +3,7 @@ namespace controllers;
 use core\Controller;
 use models\Admin;
 use lib\Db;
+include ROOT.'/views/user/config.php';
 class UserController extends Controller
 {
     public function loginAction()
@@ -74,6 +75,7 @@ class UserController extends Controller
             # check login
             if(!preg_match("/^[a-zA-Z0-9]+$/", $login))
             {
+                echo "<script>alert(\"Enter latynic char and numbers only\");</script>";
                 $err[] = "Enter latynic char and numbers only";
             }
             if(strlen($login) < 3 or strlen($login) > 30)
@@ -95,12 +97,13 @@ class UserController extends Controller
                 $err[] = "User with this login/email already register";
             }
             # register if no err
-            if(count($err) == 0)
-            {
-                $str = '1234567890qwertyuiopasdfghjklzxcvbnm';
+            if(count($err) == 0) {
+                $str = '1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm';
                 $str2 = str_shuffle($str);
                 $token = substr($str2, 0, 7);
-                $password = (hash('whirlpool', ($_POST['passwd'])));
+                if (mb_strlen($_POST['passwd']) > 7) {
+                    $password = (hash('whirlpool', ($_POST['passwd'])));
+                }
                 $connection->query("INSERT INTO users (user_login, user_password, email, email_confirmd, user_token
 )VALUES ('$login', '$password', '$email', 0, '$token')");
                 //For sending mail
@@ -116,33 +119,27 @@ class UserController extends Controller
                     "line-break-chars" => "\r\n"
                 );
                 // Set mail header
-                $header = "Content-type: text/html; charset=".$encoding." \r\n";
-                $header .= "From: ".$from_name." <".$from_mail."> \r\n";
+                $header = "Content-type: text/html; charset=" . $encoding . " \r\n";
+                $header .= "From: " . $from_name . " <" . $from_mail . "> \r\n";
                 $header .= "MIME-Version: 1.0 \r\n";
                 $header .= "Content-Transfer-Encoding: 8bit \r\n";
-                $header .= "Date: ".date("r (T)")." \r\n";
+                $header .= "Date: " . date("r (T)") . " \r\n";
                 $header .= iconv_mime_encode("Subject", $mail_subject, $subject_preferences);
                 $mail_message = ' <!doctype html> <html>
                 <p>Hi,</p>
                 <p>Thanks for register.</p>
-                <p>Pls, activate your account via this <a href="http://localhost:8082/user/emailVerification?login='.$login.'&token='.$token.'">link</a></p>
+                <p>Pls, activate your account via this <a href="http://localhost:8082/user/emailVerification?login=' . $login . '&token=' . $token . '">link</a></p>
                 <p>Best regards! Camagru team.</p>
                 </html>';
                 // Send mail
                 mail($email, $mail_subject, $mail_message, $header);
                 echo "<script>alert(\"Registration success, check your email\");</script>";
-                header("Location: login"); exit();
+                header("Location: login");
+                exit();
             }
             else
-            {
-                print "<b>Error registration:</b><br>";
-                foreach($err AS $error)
-                {
-                    print $error."<br>";
-                }
+                echo "<script>alert(\"Password will be more than 7 characters\");</script>";
             }
-        }
-
     }
     public function passwordrecoveryAction() {
         $connection = new Db;
@@ -150,7 +147,7 @@ class UserController extends Controller
         if(isset($_POST['submit'])) {
             $email = $_POST['email'];
             $res = $connection->row("SELECT * FROM users WHERE email='$email'");
-            $str = '1234567890qwertyuiopasdfghjklzxcvbnm';
+            $str = '1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm';
             $str2 = str_shuffle($str);
             $token = substr($str2, 0, 7);
             if ($email == $res[0]['email']) {
@@ -184,6 +181,8 @@ class UserController extends Controller
                 echo "<script>alert(\"Check your mail\");</script>";
                 header("Location: login"); exit();
             }
+            else
+                echo "<script>alert(\"No one users with this email\");</script>";
         }
     }
     public function changepassmailAction()
@@ -193,22 +192,52 @@ class UserController extends Controller
         if(isset($_POST['submit'])){
             $email = $_POST['email'];
             $token = $_POST['token'];
-            $pass = (hash('whirlpool', ($_POST['pass'])));
-            $newpass = (hash('whirlpool', ($_POST['newpass'])));
-            $res = $connection->row("SELECT * FROM users WHERE user_token= '$token'");
-        if ($res != null) {
-            if ($res[0]['user_token'] == $token && $res[0]['email'] == $email) {
-                if ($pass == $newpass) {
-                    $connection->query("UPDATE users SET user_password='$pass' WHERE email= '$email'");
-                } else {
-                    echo "<script>alert(\"Password don't match\");</script>";
+            if (mb_strlen($_POST['passwd']) > 7) {
+                $pass = (hash('whirlpool', ($_POST['pass'])));
+                $newpass = (hash('whirlpool', ($_POST['newpass'])));
+                                $res = $connection->row("SELECT * FROM users WHERE user_token= '$token'");
+                if ($res != null) {
+                    if ($res[0]['user_token'] == $token && $res[0]['email'] == $email) {
+                        if ($pass == $newpass) {
+                            $connection->query("UPDATE users SET user_password='$pass' WHERE email= '$email'");
+                        } else {
+                            echo "<script>alert(\"Password don't match\");</script>";
+                        }
+                    }
+                    echo "<script>alert(\"Password changed\");</script>";
+                    header("Refresh:2; login");
+                    exit();
                 }
+                else
+                    echo "<script>alert(\"Password will be more than 7 characters\");</script>";
             }
-            echo "<script>alert(\"Password changed\");</script>";
-            header("Refresh:2; login");
-            exit();
-        }
                  echo "<script>alert(\"Enter password\");</script>";
     }
+    }
+    public function fbAction(){
+        $connection = new Db;
+        if ($_GET['code']) {
+            $token = json_decode(file_get_contents('https://graph.facebook.com/v2.9/oauth/access_token?client_id=' . ID . '&redirect_uri=' . URI . '&client_secret=' . SECRET . '&code=' . $_GET['code']), true);
+            $data = json_decode(file_get_contents('https://graph.facebook.com/v2.9/me?client_id=' . ID . '&redirect_uri=' . URI . '&client_secret=' . SECRET . '&code=' . $_GET['code'] . '&access_token=' . $token['access_token'] . '&fields=id,name,email,gender,location'), true);
+            $res = $connection->row("SELECT * FROM users WHERE used_id");
+            $id = $data['id'];
+            $login = $data['name'];
+            $email = $data['email'];
+
+            if ($data['id'] != $res['user_id']){
+                $connection->query("INSERT INTO users (user_id, user_login, email, user_token)VALUES ('$id','$login','$email','FB')");
+                $_SESSION['login'] = $login;
+                $this->view->redirect('');
+            }
+            else if ($data['id'] == $res['user_id']){
+                $_SESSION['login'] = $login;
+                $this->view->redirect('');
+            }
+
+        }
+        $data['avatar'] = 'https://graph.facebook.com/v2.9/'.$data['id'].'/picture?width=200&height=200';
+        echo '<pre>';
+        var_dump($data);
+        echo '</pre>';
     }
 }

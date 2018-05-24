@@ -68,4 +68,8 @@ return [
         'controller' => 'user',
         'action' => 'changepassmail',
     ],
+    'user/login/fb(.*)' => [
+        'controller' => 'user',
+        'action' => 'fb',
+    ],
 ];

@@ -9,7 +9,8 @@ return [
         'logout',
         'newpassword',
         'passwordrecovery',
-        'changepassmail'
+        'changepassmail',
+        'fb'
     ],
     'authorize' => [
         //
@@ -20,7 +21,8 @@ return [
         'registration',
         'logout',
         'passwordrecovery',
-        'changepassmail'
+        'changepassmail',
+        'fb'
     ],
     'admin' => [
         //

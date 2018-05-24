@@ -1,6 +1,7 @@
 
 <?php
 require 'lib/Dev.php';
+define('ROOT', dirname(__FILE__));
 use core\Router;
 spl_autoload_register(function($class) {
     $path = str_replace('\\', '/', $class.'.php');
