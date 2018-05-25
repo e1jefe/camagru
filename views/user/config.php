@@ -1,5 +1,5 @@
 <?php
-define('ID', '778480969008807');
-define('SECRET', '95ef1f1e7fd1b4202ff4c0c43cbf3de7');
-define('URI', 'http://localhost:8082/user/login/fb');
+define('ID', '1021641184664991');
+define('SECRET', '38b301be2e1d956a3b7c4661d7744ce9');
+define('URL', 'https://localhost:8082/user/login/fb');
 ?>

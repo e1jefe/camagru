@@ -72,4 +72,8 @@ return [
         'controller' => 'user',
         'action' => 'fb',
     ],
+    'main/privacy' => [
+        'controller' => 'main',
+        'action' => 'privacy',
+    ],
 ];

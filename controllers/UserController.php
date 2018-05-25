@@ -217,13 +217,12 @@ class UserController extends Controller
     public function fbAction(){
         $connection = new Db;
         if ($_GET['code']) {
-            $token = json_decode(file_get_contents('https://graph.facebook.com/v2.9/oauth/access_token?client_id=' . ID . '&redirect_uri=' . URI . '&client_secret=' . SECRET . '&code=' . $_GET['code']), true);
-            $data = json_decode(file_get_contents('https://graph.facebook.com/v2.9/me?client_id=' . ID . '&redirect_uri=' . URI . '&client_secret=' . SECRET . '&code=' . $_GET['code'] . '&access_token=' . $token['access_token'] . '&fields=id,name,email,gender,location'), true);
+            $token = json_decode(file_get_contents('https://graph.facebook.com/v2.9/oauth/access_token?client_id=' . ID . '&redirect_uri=' . URL . '&client_secret=' . SECRET . '&code=' . $_GET['code']), true);
+            $data = json_decode(file_get_contents('https://graph.facebook.com/v2.9/me?client_id=' . ID . '&redirect_uri=' . URL . '&client_secret=' . SECRET . '&code=' . $_GET['code'] . '&access_token=' . $token['access_token'] . '&fields=id,name,email,gender,location'), true);
             $res = $connection->row("SELECT * FROM users WHERE used_id");
             $id = $data['id'];
             $login = $data['name'];
             $email = $data['email'];
-
             if ($data['id'] != $res['user_id']){
                 $connection->query("INSERT INTO users (user_id, user_login, email, user_token)VALUES ('$id','$login','$email','FB')");
                 $_SESSION['login'] = $login;
@@ -233,11 +232,7 @@ class UserController extends Controller
                 $_SESSION['login'] = $login;
                 $this->view->redirect('');
             }
-
         }
-        $data['avatar'] = 'https://graph.facebook.com/v2.9/'.$data['id'].'/picture?width=200&height=200';
-        echo '<pre>';
-        var_dump($data);
-        echo '</pre>';
+
     }
 }

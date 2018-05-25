@@ -38,4 +38,7 @@ class MainController extends Controller {
     public function authorizeAction(){
 
     }
+    public function privacyAction() {
+                $this->view->render('privacy');
+    }
 }
