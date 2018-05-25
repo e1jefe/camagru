@@ -9,18 +9,6 @@ return [
         'controller' => 'main',
         'action' => 'index',
     ],
-    'about' => [
-        'controller' => 'main',
-        'action' => 'about',
-    ],
-    'contact' => [
-        'controller' => 'main',
-        'action' => 'contact',
-    ],
-    'post/{id:\d+}' => [
-        'controller' => 'main',
-        'action' => 'post',
-    ],
     'authorize' => [
         'controller' => 'main',
         'action' => 'authorize',
@@ -75,5 +63,13 @@ return [
     'main/privacy' => [
         'controller' => 'main',
         'action' => 'privacy',
+    ],
+    'user/account(.*)' => [
+        'controller' => 'user',
+        'action' => 'account',
+    ],
+    'user/changepass(.*)' => [
+        'controller' => 'user',
+        'action' => 'changepass',
     ],
 ];

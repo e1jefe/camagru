@@ -1,4 +1,5 @@
-    <div class="main">
+
+<div class="main">
         <div class="left">
             <?php if(isset($_SESSION['login'])): ?>
             <div class="btn-photo">

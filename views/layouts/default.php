@@ -13,7 +13,7 @@
     <nav>
         <?php if(isset($_SESSION['login'])): ?>
             <a>Your account:</a>
-            <a href="">
+            <a href="user/account">
                 <?php echo $_SESSION['login']?>
             </a>
             <a href="user/logout">

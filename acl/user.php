@@ -10,10 +10,12 @@ return [
         'newpassword',
         'passwordrecovery',
         'changepassmail',
-        'fb'
+        'fb',
+        'account',
+        'changepass'
     ],
     'authorize' => [
-        //
+        'account'
     ],
     'guest' => [
         'index',
@@ -22,7 +24,8 @@ return [
         'logout',
         'passwordrecovery',
         'changepassmail',
-        'fb'
+        'fb',
+        'changepass'
     ],
     'admin' => [
         //

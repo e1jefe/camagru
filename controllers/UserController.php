@@ -101,7 +101,7 @@ class UserController extends Controller
                 $str = '1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm';
                 $str2 = str_shuffle($str);
                 $token = substr($str2, 0, 7);
-                if (mb_strlen($_POST['passwd']) > 7) {
+                if (mb_strlen($_POST['passwd']) > 7 && mb_strlen($_POST['passwd']) < 20) {
                     $password = (hash('whirlpool', ($_POST['passwd'])));
                 }
                 $connection->query("INSERT INTO users (user_login, user_password, email, email_confirmd, user_token
@@ -192,7 +192,7 @@ class UserController extends Controller
         if(isset($_POST['submit'])){
             $email = $_POST['email'];
             $token = $_POST['token'];
-            if (mb_strlen($_POST['passwd']) > 7) {
+            if (mb_strlen($_POST['pass'])  >=  7 && mb_strlen($_POST['pass']) < 20) {
                 $pass = (hash('whirlpool', ($_POST['pass'])));
                 $newpass = (hash('whirlpool', ($_POST['newpass'])));
                                 $res = $connection->row("SELECT * FROM users WHERE user_token= '$token'");
@@ -233,6 +233,41 @@ class UserController extends Controller
                 $this->view->redirect('');
             }
         }
+    }
+    public function accountAction(){
 
+        $connection = new Db;
+        $login = $_SESSION['login'];
+        $res = $connection->row("SELECT * FROM users WHERE user_login='$login'");
+        $this->view->render('account', $res[0]);
+    }
+    public function changepassAction()
+    {
+        $this->view->render('changepass');
+        $connection = new Db;
+        $login = $_SESSION['login'];
+        if(isset($_POST['submit'])){
+                if (mb_strlen($_POST['pass'])  >=  7 && mb_strlen($_POST['pass']) < 20) {
+                    $pas = (hash('whirlpool', ($_POST['passwd'])));
+                $pass = (hash('whirlpool', ($_POST['pass'])));
+                $newpass = (hash('whirlpool', ($_POST['newpass'])));
+                $res = $connection->row("SELECT * FROM users WHERE user_login= '$login'");
+                $pasw = $res[0]['user_password'];
+                    var_dump($pass);
+                    var_dump($pasw);
+                    if ($pas == $pasw) {
+                        if ($pass == $newpass) {
+                            $connection->query("UPDATE users SET user_password='$pass' WHERE user_id= {$res[0]['user_id']}");
+                        } else {
+                            echo "<script>alert(\"Password don't match\");</script>";
+                        }
+                            echo "<script>alert(\"Password changed\");</script>";
+//                        exit();
+                        header("Location: account");
+                    }
+                    echo "<script>alert(\"Wrong password\");</script>";
+            }
+            echo "<script>alert(\"Password will be more than 7 characters\");</script>";
+        }
     }
 }
