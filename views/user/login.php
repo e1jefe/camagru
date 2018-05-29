@@ -9,7 +9,8 @@
             <button name="submit" value="OK" />login</button>
             <p class="message">Not registered? <a href="registration">Create your account</a></p>
             <p class="message"><a href="passwordrecovery">Forgot password?</a></p>
-            <a href=" https://www.facebook.com/v2.9/dialog/oauth?client_id=<?=ID?>&redirect_uri=<?=URL?>&response_type=code&scope=public_profile,email">Войти через ФБ</a>
+            <a href=" https://www.facebook.com/v2.9/dialog/oauth?client_id=<?=ID?>&redirect_uri=<?=URL?>&response_type=code&scope=public_profile,email"><img src="/public/images/facebook.png"></a>
         </form>
     </div>
 </section>
+<!--<img src="/public/images/facebook.png">-->

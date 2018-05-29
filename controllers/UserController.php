@@ -101,7 +101,7 @@ class UserController extends Controller
                 $str = '1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm';
                 $str2 = str_shuffle($str);
                 $token = substr($str2, 0, 7);
-                if (mb_strlen($_POST['passwd']) > 7 && mb_strlen($_POST['passwd']) < 20) {
+                if (mb_strlen($_POST['passwd']) >= 7 && mb_strlen($_POST['passwd']) < 20) {
                     $password = (hash('whirlpool', ($_POST['passwd'])));
                 }
                 $connection->query("INSERT INTO users (user_login, user_password, email, email_confirmd, user_token
@@ -223,13 +223,14 @@ class UserController extends Controller
             $id = $data['id'];
             $login = $data['name'];
             $email = $data['email'];
-            if ($data['id'] != $res['user_id']){
+            if ($res['user_id'] == NULL){
                 $connection->query("INSERT INTO users (user_id, user_login, email, user_token)VALUES ('$id','$login','$email','FB')");
                 $_SESSION['login'] = $login;
                 $this->view->redirect('');
             }
             else if ($data['id'] == $res['user_id']){
-                $_SESSION['login'] = $login;
+//                $_SESSION['login'] = $login;
+                $_SESSION['login'] = $res[0]['user_login'];
                 $this->view->redirect('');
             }
         }
@@ -240,6 +241,17 @@ class UserController extends Controller
         $login = $_SESSION['login'];
         $res = $connection->row("SELECT * FROM users WHERE user_login='$login'");
         $this->view->render('account', $res[0]);
+        if(isset($_POST['submit'])){
+            $log = ($_POST['login']);
+            $connection->query("UPDATE users SET user_login='$log' WHERE user_id= {$res[0]['user_id']}");
+            $_SESSION['login'] = $_POST['login'];
+            header("Refresh:1; account");
+        }else
+            if(isset($_POST['submit1'])){
+            $email = ($_POST['email']);
+            $connection->query("UPDATE users SET email='$email' WHERE user_id= {$res[0]['user_id']}");
+            header("Refresh:1; account");
+        }
     }
     public function changepassAction()
     {
@@ -253,8 +265,6 @@ class UserController extends Controller
                 $newpass = (hash('whirlpool', ($_POST['newpass'])));
                 $res = $connection->row("SELECT * FROM users WHERE user_login= '$login'");
                 $pasw = $res[0]['user_password'];
-                    var_dump($pass);
-                    var_dump($pasw);
                     if ($pas == $pasw) {
                         if ($pass == $newpass) {
                             $connection->query("UPDATE users SET user_password='$pass' WHERE user_id= {$res[0]['user_id']}");

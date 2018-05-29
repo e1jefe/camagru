@@ -10,7 +10,6 @@
             <input type="hidden" name="email" value="" />
             <input type="hidden" name="token" value="" />
             <button name="submit" value="OK" />Submit</button>
-<!--            <p class="message">Already registered? <a href="login">Sign In</a></p>-->
         </form>
     </div>
 </section>

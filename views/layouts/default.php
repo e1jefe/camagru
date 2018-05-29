@@ -12,15 +12,15 @@
     <h1><a href="/" class="ssilka">Camagru</a></h1>
     <nav>
         <?php if(isset($_SESSION['login'])): ?>
-            <a>Your account:</a>
-            <a href="user/account">
+            <a>Hi, </a>
+            <a href="http://localhost:8082/user/account">
                 <?php echo $_SESSION['login']?>
             </a>
-            <a href="user/logout">
+            <a href="http://localhost:8082/user/logout">
                 Logout
             </a>
         <?php else: ?>
-            <a href="user/login">login / sign up</a>
+            <a href="http://localhost:8082/user/login">Log in</a>
         <?php endif; ?>
     </nav>
 </header>
@@ -29,7 +29,7 @@
     <div class="copyrights">
         <p>
             © 2018 Camagru. All rights reserved by dsheptun.
-            <a href="main/privacy">Privacy policy</a>
+            <a href="http://localhost:8082/main/privacy">Privacy policy</a>
         </p>
            </div>
     <div class="btn-home">
@@ -40,3 +40,4 @@
 </footer>
 </body>
 </html>
+<!--<img src="/public/images/login.png">-->
