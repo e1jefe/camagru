@@ -72,4 +72,9 @@ return [
         'controller' => 'user',
         'action' => 'changepass',
     ],
+    'uploadphoto' => [
+        'controller' => 'user',
+        'action' => 'uploadphoto',
+    ],
+
 ];

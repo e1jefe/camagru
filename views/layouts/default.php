@@ -5,7 +5,7 @@
     <title>Camagru</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css">
     <link rel="stylesheet" href="../public/styles/style.css">
-    <link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/public/images/favico.ico" type="image/x-icon">
 </head>
 <body>
 <header>

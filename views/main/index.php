@@ -1,4 +1,3 @@
-
 <div class="main">
         <div class="left">
             <?php if(isset($_SESSION['login'])): ?>
@@ -8,27 +7,35 @@
                 </a>
             </div>
             <div class="btn-folder">
-                <a>
-                    <label for="file-input">
-                        <img src="/public/images/catalog.png"/>
-                    </label>
 
-                    <input id="file-input" style="display:none;" type="file"/>
-                </a>
+                <form enctype="multipart/form-data" action="uploadphoto" method="post">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="30000">
+                    Upload photo: <input name="userfile" type="file">
+                    <input type="submit" value="Send File">
+                </form>
+<!--                <a>-->
+<!--                    <label for="file-input">-->
+<!--                        <img src="/public/images/catalog.png"/>-->
+<!--                    </label>-->
+<!--                    <form action="uploadphoto" enctype="multipart/form-data" method="post">-->
+<!--                    <input name="image" id="file-input" style="display:none;" type="file"/>-->
+<!--                        <input type="submit" value="Upload" />-->
+<!--                    </form>-->
+<!--                </a>-->
+
+<!--                <form action="uploadphoto" enctype="multipart/form-data" method="post">-->
+<!--                    <img src="/public/images/catalog.png"/> <input type="file" name="photo"/><BR/>-->
+<!--                    <input type="submit" value="Upload" />-->
+<!--                </form>-->
             </div>
             <?php endif; ?>
         </div>
         <div class="middle">
             <div class="hovergallery">
                 <?php foreach ($vars as $item): ?>
-                <img src="
-<?php
-                echo $item;
-                ?>
-" alt="">
+                <img src=" <?php echo $item; ?> " alt="">
                 <?php endforeach; ?>
             </div>
-
         </div>
 
         <div class="right"></div>
@@ -61,9 +68,7 @@
         })
     </script>
     <form ><input type='button' id='snapshot' value="snapshot"></form>
-
     <canvas id='canvas' width='640' height='480' ></canvas>
-
     <script>
         document.getElementById('snapshot').onclick = function() {
             var video = document.querySelector('video');

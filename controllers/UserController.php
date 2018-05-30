@@ -19,20 +19,15 @@ class UserController extends Controller
                 // и ищем юзера с таким логином и паролем
                 $res = $connection->row("SELECT * FROM users WHERE user_login= '$login'");
                 // if email not comfirmd
-                if ($res == null)
-                {
+                if ($res == null) {
                     echo "<script>alert(\"no such login\");</script>";
-                }
-                else if ($res[0]['user_password'] != $password || $res[0]['email_confirmd'] == 0)
-                {
+                } else if ($res[0]['user_password'] != $password || $res[0]['email_confirmd'] == 0) {
                     echo "<script>alert(\"wrong pass or email didn't confirm\");</script>";
-                }
-                else
-                {
+                } else {
                     $_SESSION['login'] = $login;
                     $this->view->redirect('');
                 }
-             }
+            }
             if (isset($_SESSION['login'])) {
                 // показываем защищенные от гостей данные.
             } else {
@@ -41,10 +36,13 @@ class UserController extends Controller
             }
         }
     }
-    public function logoutAction() {
+
+    public function logoutAction()
+    {
         unset($_SESSION['login']);
         $this->view->redirect('');
     }
+
     public function emailVerificationAction()
     {
         $this->view->render('login');
@@ -52,13 +50,13 @@ class UserController extends Controller
         $login = $_GET['login'];
         $token = $_GET['token'];
         $res = $connection->row("SELECT * FROM users WHERE user_login= '$login'");
-        if ($res != null){
-           if ($res[0]['user_token'] == $token)
-            {
+        if ($res != null) {
+            if ($res[0]['user_token'] == $token) {
                 $connection->query("UPDATE users SET email_confirmd ='1' WHERE user_login='$login'");
             }
             echo "<script>alert(\"Email verified\");</script>";
-            header("Refresh:2; login"); exit();
+            header("Refresh:2; login");
+            exit();
         }
     }
 
@@ -67,37 +65,32 @@ class UserController extends Controller
         $this->view->render('registration');
         $connection = new Db;
 
-        if(isset($_POST['submit']))
-        {
+        if (isset($_POST['submit'])) {
             $err = array();
             $login = $_POST['login'];
             $email = $_POST['email'];
             # check login
-            if(!preg_match("/^[a-zA-Z0-9]+$/", $login))
-            {
+            if (!preg_match("/^[a-zA-Z0-9]+$/", $login)) {
                 echo "<script>alert(\"Enter latynic char and numbers only\");</script>";
                 $err[] = "Enter latynic char and numbers only";
             }
-            if(strlen($login) < 3 or strlen($login) > 30)
-            {
+            if (strlen($login) < 3 or strlen($login) > 30) {
                 echo "<script>alert(\"Login must be more than 3 and less than 30 char\");</script>";
                 $err[] = "Login must be more than 3 and less than 30 char";
             }
-            if(strcmp($_POST['passwd'], $_POST['confpasswd'] ))
-            {
+            if (strcmp($_POST['passwd'], $_POST['confpasswd'])) {
                 $err[] = "Password does not match";
                 echo "<script>alert(\"Password does not match\");</script>";
             }
             # check matching login
             $res = $connection->row("SELECT * FROM users WHERE user_login='$login'");
             $res2 = $connection->row("SELECT * FROM users WHERE email='$email'");
-            if($res != null || $res2 != null)
-            {
+            if ($res != null || $res2 != null) {
                 echo "<script>alert(\"User with this login/email already register\");</script>";
                 $err[] = "User with this login/email already register";
             }
             # register if no err
-            if(count($err) == 0) {
+            if (count($err) == 0) {
                 $str = '1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm';
                 $str2 = str_shuffle($str);
                 $token = substr($str2, 0, 7);
@@ -136,15 +129,16 @@ class UserController extends Controller
                 echo "<script>alert(\"Registration success, check your email\");</script>";
                 header("Location: login");
                 exit();
-            }
-            else
+            } else
                 echo "<script>alert(\"Password will be more than 7 characters\");</script>";
-            }
+        }
     }
-    public function passwordrecoveryAction() {
+
+    public function passwordrecoveryAction()
+    {
         $connection = new Db;
         $this->view->render('passwordrecovery');
-        if(isset($_POST['submit'])) {
+        if (isset($_POST['submit'])) {
             $email = $_POST['email'];
             $res = $connection->row("SELECT * FROM users WHERE email='$email'");
             $str = '1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm';
@@ -179,23 +173,24 @@ class UserController extends Controller
                 // Send mail
                 mail($email, $mail_subject, $mail_message, $header);
                 echo "<script>alert(\"Check your mail\");</script>";
-                header("Location: login"); exit();
-            }
-            else
+                header("Location: login");
+                exit();
+            } else
                 echo "<script>alert(\"No one users with this email\");</script>";
         }
     }
+
     public function changepassmailAction()
     {
         $this->view->render('changepassmail');
         $connection = new Db;
-        if(isset($_POST['submit'])){
+        if (isset($_POST['submit'])) {
             $email = $_POST['email'];
             $token = $_POST['token'];
-            if (mb_strlen($_POST['pass'])  >=  7 && mb_strlen($_POST['pass']) < 20) {
+            if (mb_strlen($_POST['pass']) >= 7 && mb_strlen($_POST['pass']) < 20) {
                 $pass = (hash('whirlpool', ($_POST['pass'])));
                 $newpass = (hash('whirlpool', ($_POST['newpass'])));
-                                $res = $connection->row("SELECT * FROM users WHERE user_token= '$token'");
+                $res = $connection->row("SELECT * FROM users WHERE user_token= '$token'");
                 if ($res != null) {
                     if ($res[0]['user_token'] == $token && $res[0]['email'] == $email) {
                         if ($pass == $newpass) {
@@ -207,14 +202,15 @@ class UserController extends Controller
                     echo "<script>alert(\"Password changed\");</script>";
                     header("Refresh:2; login");
                     exit();
-                }
-                else
+                } else
                     echo "<script>alert(\"Password will be more than 7 characters\");</script>";
             }
-                 echo "<script>alert(\"Enter password\");</script>";
+            echo "<script>alert(\"Enter password\");</script>";
+        }
     }
-    }
-    public function fbAction(){
+
+    public function fbAction()
+    {
         $connection = new Db;
         if ($_GET['code']) {
             $token = json_decode(file_get_contents('https://graph.facebook.com/v2.9/oauth/access_token?client_id=' . ID . '&redirect_uri=' . URL . '&client_secret=' . SECRET . '&code=' . $_GET['code']), true);
@@ -223,61 +219,74 @@ class UserController extends Controller
             $id = $data['id'];
             $login = $data['name'];
             $email = $data['email'];
-            if ($res['user_id'] == NULL){
+            if ($res['user_id'] == NULL) {
                 $connection->query("INSERT INTO users (user_id, user_login, email, user_token)VALUES ('$id','$login','$email','FB')");
                 $_SESSION['login'] = $login;
                 $this->view->redirect('');
-            }
-            else if ($data['id'] == $res['user_id']){
+            } else if ($data['id'] == $res['user_id']) {
 //                $_SESSION['login'] = $login;
                 $_SESSION['login'] = $res[0]['user_login'];
                 $this->view->redirect('');
             }
         }
     }
-    public function accountAction(){
+
+    public function accountAction()
+    {
 
         $connection = new Db;
         $login = $_SESSION['login'];
         $res = $connection->row("SELECT * FROM users WHERE user_login='$login'");
         $this->view->render('account', $res[0]);
-        if(isset($_POST['submit'])){
+        if (isset($_POST['submit'])) {
             $log = ($_POST['login']);
             $connection->query("UPDATE users SET user_login='$log' WHERE user_id= {$res[0]['user_id']}");
             $_SESSION['login'] = $_POST['login'];
             header("Refresh:1; account");
-        }else
-            if(isset($_POST['submit1'])){
-            $email = ($_POST['email']);
-            $connection->query("UPDATE users SET email='$email' WHERE user_id= {$res[0]['user_id']}");
-            header("Refresh:1; account");
-        }
+        } else
+            if (isset($_POST['submit1'])) {
+                $email = ($_POST['email']);
+                $connection->query("UPDATE users SET email='$email' WHERE user_id= {$res[0]['user_id']}");
+                header("Refresh:1; account");
+            }
     }
+
     public function changepassAction()
     {
         $this->view->render('changepass');
         $connection = new Db;
         $login = $_SESSION['login'];
-        if(isset($_POST['submit'])){
-                if (mb_strlen($_POST['pass'])  >=  7 && mb_strlen($_POST['pass']) < 20) {
-                    $pas = (hash('whirlpool', ($_POST['passwd'])));
+        if (isset($_POST['submit'])) {
+            if (mb_strlen($_POST['pass']) >= 7 && mb_strlen($_POST['pass']) < 20) {
+                $pas = (hash('whirlpool', ($_POST['passwd'])));
                 $pass = (hash('whirlpool', ($_POST['pass'])));
                 $newpass = (hash('whirlpool', ($_POST['newpass'])));
                 $res = $connection->row("SELECT * FROM users WHERE user_login= '$login'");
                 $pasw = $res[0]['user_password'];
-                    if ($pas == $pasw) {
-                        if ($pass == $newpass) {
-                            $connection->query("UPDATE users SET user_password='$pass' WHERE user_id= {$res[0]['user_id']}");
-                        } else {
-                            echo "<script>alert(\"Password don't match\");</script>";
-                        }
-                            echo "<script>alert(\"Password changed\");</script>";
-//                        exit();
-                        header("Location: account");
+                if ($pas == $pasw) {
+                    if ($pass == $newpass) {
+                        $connection->query("UPDATE users SET user_password='$pass' WHERE user_id= {$res[0]['user_id']}");
+                    } else {
+                        echo "<script>alert(\"Password don't match\");</script>";
                     }
-                    echo "<script>alert(\"Wrong password\");</script>";
+                    echo "<script>alert(\"Password changed\");</script>";
+//                        exit();
+                    header("Location: account");
+                }
+                echo "<script>alert(\"Wrong password\");</script>";
             }
             echo "<script>alert(\"Password will be more than 7 characters\");</script>";
         }
+    }
+
+    public function uploadphotoAction()
+    {
+        $uploaddir = '/public/images/';
+        if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploaddir . $_FILES['userfile']['name'])) {
+    print "File is valid, and was successfully uploaded.";
+        } else {
+            print "There some errors!";
+        }
+
     }
 }

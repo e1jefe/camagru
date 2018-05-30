@@ -12,7 +12,8 @@ return [
         'changepassmail',
         'fb',
         'account',
-        'changepass'
+        'changepass',
+        'uploadphoto'
     ],
     'authorize' => [
         'account'
