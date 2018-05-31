@@ -9,8 +9,8 @@
             <div class="btn-folder">
 
                 <form enctype="multipart/form-data" action="uploadphoto" method="post">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="30000">
-                    Upload photo: <input name="userfile" type="file">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="64000">
+                    Send photo: <input name="userfile" type="file">
                     <input type="submit" value="Send File">
                 </form>
 <!--                <a>-->
@@ -57,7 +57,7 @@
 // получаем тег video
                             var video = document.querySelector('video');
 // включаем поток в магический URL
-                            video.src = window.webkitURL.createObjectURL(stream);
+                            video.srcObject = stream;
                         },
                         function () {
                             console.log("error happened");

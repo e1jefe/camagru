@@ -30,10 +30,8 @@ class UserController extends Controller
             }
             if (isset($_SESSION['login'])) {
                 // показываем защищенные от гостей данные.
-            } else {
-                echo "<script>alert(\"Access denied\");</script>";
+            } else
                 die;
-            }
         }
     }
 
@@ -281,12 +279,85 @@ class UserController extends Controller
 
     public function uploadphotoAction()
     {
-        $uploaddir = '/public/images/';
-        if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploaddir . $_FILES['userfile']['name'])) {
-    print "File is valid, and was successfully uploaded.";
-        } else {
-            print "There some errors!";
-        }
+        $connection = new Db;
+        //die("<pre>" . print_r($_FILES, true) . "</pre>");
+        $uploaddir = '/Users/dsheptun/proverki/cam/public/images/'; // это папка, в которую будет загружаться картинка
+        $dir = '/public/images/';
+        $apend=date('YmdHis').rand(100,1000).'.jpg';
+        $uploadfile = $uploaddir . $apend;
+        if($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size']<=1024000) {
+            if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+                $size = getimagesize($uploadfile);
+                if ($size[0] < 1200 && $size[1]<5001) {
+                    $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend','1','0','')");
+                    echo "<script>alert(\"Photo uploaded\");</script>";
+                    header("Location: ");
+                }
+                else
+                    {
+                       echo "<script>alert(\"Размер пикселей превышает допустимые нормы (ширина не более - 600 пикселей, высота не более 5000)\");</script>";
+                    unlink($uploadfile);
+                    }
+        } else {echo "<script>alert(\"Файл не загружен, верьнитель и попробуйте еще раз\");</script>";}
+        }else {  echo "<script>alert(\"Размер файла не должен превышать 1000Кб\");</script>";}
 
     }
+
 }
+//const input = document.querySelector('input[type=file]');
+//input.addEventListener('change', function(ev){
+//    // console.log(ev);
+//    const files = ev.target.files;
+//    const file = files[0];
+//    const formData = new FormData();
+//    formData.append('photo', file);
+//
+//    const req = new XMLHttpRequest();
+//    req.addEventListener('load', function(){
+//        console.log(req.responseText);
+//    });
+//    req.open('POST', 'http://localhost:8070/picture/upload');
+//    req.send(formData);
+//});
+//pictureController uploadAction
+//public function uploadAction()
+//{
+//    // Проверяем пришел ли файл
+//    if( !empty( $_FILES['photo']['name'] ) ) {
+//        // Проверяем, что при загрузке не произошло ошибок
+//        if ( $_FILES['photo']['error'] == 0 ) {
+//            // Если файл загружен успешно, то проверяем - графический ли он
+//            if( substr($_FILES['photo']['type'], 0, 5) == 'image' ) {
+//                // Читаем содержимое файла
+//                $image = file_get_contents( $_FILES['photo']['tmp_name'] );
+//                // echo $image;
+//                $str = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+//                $str = str_shuffle($str);
+//                $picName = substr($str, 0, 10);
+//                $fname = ROOT.'/public/test/'.$picName.'.png';
+//                $myfile = fopen($fname, 'x');
+//
+//                // echo "after open file<br>";
+//
+//                fwrite($myfile, $image);
+//                $user = new User();
+//                $userRow = $user->extractUsersByLogin($_SESSION['authorizedUser']);
+//                $user_id = $userRow[0]['id'];
+//                echo "user id = ".$user_id;
+//
+//                $link = '../../public/test/'.$picName.'.png';
+//                echo "/n link = ".$link;
+//
+//
+//                $this->model->insertLink($user_id, $link);
+//                fclose($myfile);
+//            }
+//        }
+//    }
+//}
+// picture model
+//public function insertLink($user_id, $link)
+//{
+//    print("in insertLink\n");
+//    $this->db->query("INSERT INTO pics (user_id,link,likes) VALUES ($user_id,'$link', 0)");
+//}
