@@ -197,7 +197,9 @@ a.photo:hover img{
     -moz-box-shadow:0px 0px 30px gray; /*Mozilla: тени*/
     opacity: 1;
 }
-
+.main .middle .likes button{
+    width: 7%;
+}
 #snapshot{
     position: fixed;
     top:16%;

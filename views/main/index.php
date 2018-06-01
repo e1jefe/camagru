@@ -13,29 +13,18 @@
                     Send photo: <input name="userfile" type="file">
                     <input type="submit" value="Send File">
                 </form>
-<!--                <a>-->
-<!--                    <label for="file-input">-->
-<!--                        <img src="/public/images/catalog.png"/>-->
-<!--                    </label>-->
-<!--                    <form action="uploadphoto" enctype="multipart/form-data" method="post">-->
-<!--                    <input name="image" id="file-input" style="display:none;" type="file"/>-->
-<!--                        <input type="submit" value="Upload" />-->
-<!--                    </form>-->
-<!--                </a>-->
-
-<!--                <form action="uploadphoto" enctype="multipart/form-data" method="post">-->
-<!--                    <img src="/public/images/catalog.png"/> <input type="file" name="photo"/><BR/>-->
-<!--                    <input type="submit" value="Upload" />-->
-<!--                </form>-->
             </div>
             <?php endif; ?>
         </div>
         <div class="middle">
+            <?php foreach ($vars as $item): ?>
             <div class="hovergallery">
-                <?php foreach ($vars as $item): ?>
                 <img src=" <?php echo $item; ?> " alt="">
-                <?php endforeach; ?>
-            </div>
+                </div>
+                <div class="likes">
+                    <button><img src=/public/images/like2.png></button>
+                </div>
+                        <?php endforeach; ?>
         </div>
 
         <div class="right"></div>
@@ -75,6 +64,15 @@
             var canvas = document.getElementById('canvas');
             var ctx = canvas.getContext('2d');
             ctx.drawImage(video,0,0,640,480);
-        }
+            var img = canvas.toDataURL();
+            var request = new XMLHttpRequest();
+            request.open("POST", "http://localhost:8082/uploadphoto", true);
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            var body = 'image=' + img;
+            request.addEventListener("load", function(event) {
+                console.log(event.target.responseText);
+            });
+            request.send(body);
+        };
     </script>
     <?php endif; ?>

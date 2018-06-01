@@ -285,21 +285,36 @@ class UserController extends Controller
         $dir = '/public/images/';
         $apend=date('YmdHis').rand(100,1000).'.jpg';
         $uploadfile = $uploaddir . $apend;
-        if($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size']<=1024000) {
-            if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-                $size = getimagesize($uploadfile);
-                if ($size[0] < 1200 && $size[1]<5001) {
-                    $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend','1','0','')");
-                    echo "<script>alert(\"Photo uploaded\");</script>";
-                    header("Location: ");
-                }
-                else
-                    {
-                       echo "<script>alert(\"Размер пикселей превышает допустимые нормы (ширина не более - 600 пикселей, высота не более 5000)\");</script>";
-                    unlink($uploadfile);
+        if (isset($_FILES['userfile'])) {
+            if ($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size'] <= 1024000) {
+                if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+                    $size = getimagesize($uploadfile);
+                    if ($size[0] < 1200 && $size[1] < 5001) {
+                        $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend','1','0','')");
+                        echo "<script>alert(\"Photo uploaded\");</script>";
+                        header("Location: http://localhost:8082");
+                        exit;
+                    } else {
+                        echo "<script>alert(\"Размер пикселей превышает допустимые нормы (ширина не более - 600 пикселей, высота не более 5000)\");</script>";
+                        unlink($uploadfile);
                     }
+                }
+            }
+            else {  echo "<script>alert(\"Размер файла не должен превышать 1000Кб\");</script>";}
+        }
+        else if(isset($_POST['image'])){
+            $img = str_replace('data:image/png;base64,', '', $_POST['image']);
+            $img = str_replace(' ', '+', $img);
+            $img = base64_decode($img);
+            $myfile = fopen($uploadfile, 'x');
+            fwrite($myfile, $img);
+            $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend','1','0','')");
+            fclose($myfile);
+            header("Location: http://localhost:8082");
         } else {echo "<script>alert(\"Файл не загружен, верьнитель и попробуйте еще раз\");</script>";}
-        }else {  echo "<script>alert(\"Размер файла не должен превышать 1000Кб\");</script>";}
+    }
+
+    public function likecounterAction(){
 
     }
 
@@ -361,3 +376,40 @@ class UserController extends Controller
 //    print("in insertLink\n");
 //    $this->db->query("INSERT INTO pics (user_id,link,likes) VALUES ($user_id,'$link', 0)");
 //}
+
+
+
+// public function savePhotoAction()
+//{
+//    // echo "called UserController<br>";
+//
+//    $user = new User();
+//    $userRow = $user->extractUsersByLogin($_SESSION['authorizedUser']);
+//    $img = str_replace('data:image/png;base64,', '', $_POST['image']);
+//    $img = str_replace(' ', '+', $img);
+//
+//    $img = base64_decode($img);
+//    // echo "after base64 img<br>";
+//    $str = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+//    $str = str_shuffle($str);
+//    $picName = substr($str, 0, 10);
+//    $fname = ROOT.'/public/test/'.$picName.'.png';
+//    $myfile = fopen($fname, 'x');
+//
+//    // echo "after open file<br>";
+//
+//    fwrite($myfile, $img);
+//
+//    // echo "tipe zapisali v file<br>";
+//
+//    // var_dump($userRow);
+//    // echo "<br>";
+//
+//    $user_id = $userRow[0]['id'];
+//
+//    $link = '../../public/test/'.$picName.'.png';
+//
+//    $this->model->insertLink($user_id, $link);
+//    fclose($myfile);
+//}
+
