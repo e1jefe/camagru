@@ -315,7 +315,8 @@ class UserController extends Controller
     }
 
     public function likecounterAction(){
-
+        $connection = new Db;
+        
     }
 
 }

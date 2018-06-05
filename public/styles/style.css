@@ -159,13 +159,13 @@ footer.container {
     background-color: #F0FFFF;
 }
 .main .right {
-    width: 10%;
+    width: 0%;
     background-color: #F0FFFF;
     display: flex;
     flex-direction: column;
 }
 .main .middle {
-    width: 80%;
+    width: 90%;
     flex-direction: column;
     text-align: center;
 }
@@ -185,7 +185,7 @@ a.photo:hover img{
     -moz-transition-duration: 0.5s; /*Mozilla: длительность анимации*/
     -o-transition-duration: 0.5s; /*Opera: длительность анимации*/
     opacity: 0.7; /*Начальная прозрачность изображений*/
-    margin: 0 10px 5px 0; /*Интервалы между изображениями*/
+    margin: 0 10px 7px 0; /*Интервалы между изображениями*/
 }
 
 .hovergallery img:hover{
@@ -197,8 +197,11 @@ a.photo:hover img{
     -moz-box-shadow:0px 0px 30px gray; /*Mozilla: тени*/
     opacity: 1;
 }
-.main .middle .likes button{
-    width: 7%;
+.main .middle .likes {
+    width: 35%;
+    position: inherit;
+    opacity: 0.7;
+    display: inline-block;
 }
 #snapshot{
     position: fixed;
