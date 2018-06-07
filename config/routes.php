@@ -76,5 +76,8 @@ return [
         'controller' => 'user',
         'action' => 'uploadphoto',
     ],
-
+    'likecounter(.*)' => [
+    'controller' => 'user',
+    'action' => 'likecounter',
+    ],
 ];

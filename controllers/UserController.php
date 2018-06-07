@@ -280,7 +280,6 @@ class UserController extends Controller
     public function uploadphotoAction()
     {
         $connection = new Db;
-        //die("<pre>" . print_r($_FILES, true) . "</pre>");
         $uploaddir = '/Users/dsheptun/proverki/cam/public/images/'; // это папка, в которую будет загружаться картинка
         $dir = '/public/images/';
         $apend=date('YmdHis').rand(100,1000).'.jpg';
@@ -311,106 +310,41 @@ class UserController extends Controller
             $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend','1','0','')");
             fclose($myfile);
             header("Location: http://localhost:8082");
-        } else {echo "<script>alert(\"Файл не загружен, верьнитель и попробуйте еще раз\");</script>";}
+        } else {echo "<script>alert(\"Файл не загружен, вернитеcь и попробуйте еще раз\");</script>";}
     }
 
     public function likecounterAction(){
         $connection = new Db;
-        
+        $picLink = $_POST['key'];
+        $tmp = $connection->row("SELECT * FROM pics WHERE source='$picLink'");
+        $likeAmount = $tmp[0]['likes'];
+        $pic_id = $tmp[0]['id_pic'];
+        $likeArr = $connection->row("SELECT * FROM likes WHERE post_id='$pic_id'");
+        $login = $_SESSION['login'];
+        $res = $connection->row("SELECT user_id FROM users WHERE user_login= '$login'");
+        $user_id = $res[0]['user_id'];
+        $error = true;
+        if ($likeArr != null) {
+            foreach ($likeArr as $like) {
+                if ($like['user_id'] == $user_id AND $like['post_id'] == $pic_id) {
+                    $error = false;
+                }
+            }
+        }
+            if ($error == true) //ne bylo usera +1 like k pikche
+            {
+                $connection->query("INSERT INTO likes (post_id, user_id)VALUES ('$pic_id', '$user_id')");
+                $connection->query("UPDATE pics SET likes={$tmp[0]['likes']} + 1  WHERE id_pic= '$pic_id'");
+            }
+            else //nado udalit iz like i -1 k pikche
+            {
+                $connection->query("DELETE FROM likes WHERE user_id='$user_id' AND post_id='$pic_id'");
+              $connection->query("UPDATE pics SET likes={$tmp[0]['likes']} - 1  WHERE id_pic= $pic_id");
+            }
+        $tmp = $connection->row("SELECT * FROM pics WHERE source='$picLink'");
+        echo $tmp[0]['likes'];
     }
 
 }
-//const input = document.querySelector('input[type=file]');
-//input.addEventListener('change', function(ev){
-//    // console.log(ev);
-//    const files = ev.target.files;
-//    const file = files[0];
-//    const formData = new FormData();
-//    formData.append('photo', file);
-//
-//    const req = new XMLHttpRequest();
-//    req.addEventListener('load', function(){
-//        console.log(req.responseText);
-//    });
-//    req.open('POST', 'http://localhost:8070/picture/upload');
-//    req.send(formData);
-//});
-//pictureController uploadAction
-//public function uploadAction()
-//{
-//    // Проверяем пришел ли файл
-//    if( !empty( $_FILES['photo']['name'] ) ) {
-//        // Проверяем, что при загрузке не произошло ошибок
-//        if ( $_FILES['photo']['error'] == 0 ) {
-//            // Если файл загружен успешно, то проверяем - графический ли он
-//            if( substr($_FILES['photo']['type'], 0, 5) == 'image' ) {
-//                // Читаем содержимое файла
-//                $image = file_get_contents( $_FILES['photo']['tmp_name'] );
-//                // echo $image;
-//                $str = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
-//                $str = str_shuffle($str);
-//                $picName = substr($str, 0, 10);
-//                $fname = ROOT.'/public/test/'.$picName.'.png';
-//                $myfile = fopen($fname, 'x');
-//
-//                // echo "after open file<br>";
-//
-//                fwrite($myfile, $image);
-//                $user = new User();
-//                $userRow = $user->extractUsersByLogin($_SESSION['authorizedUser']);
-//                $user_id = $userRow[0]['id'];
-//                echo "user id = ".$user_id;
-//
-//                $link = '../../public/test/'.$picName.'.png';
-//                echo "/n link = ".$link;
-//
-//
-//                $this->model->insertLink($user_id, $link);
-//                fclose($myfile);
-//            }
-//        }
-//    }
-//}
-// picture model
-//public function insertLink($user_id, $link)
-//{
-//    print("in insertLink\n");
-//    $this->db->query("INSERT INTO pics (user_id,link,likes) VALUES ($user_id,'$link', 0)");
-//}
 
-
-
-// public function savePhotoAction()
-//{
-//    // echo "called UserController<br>";
-//
-//    $user = new User();
-//    $userRow = $user->extractUsersByLogin($_SESSION['authorizedUser']);
-//    $img = str_replace('data:image/png;base64,', '', $_POST['image']);
-//    $img = str_replace(' ', '+', $img);
-//
-//    $img = base64_decode($img);
-//    // echo "after base64 img<br>";
-//    $str = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
-//    $str = str_shuffle($str);
-//    $picName = substr($str, 0, 10);
-//    $fname = ROOT.'/public/test/'.$picName.'.png';
-//    $myfile = fopen($fname, 'x');
-//
-//    // echo "after open file<br>";
-//
-//    fwrite($myfile, $img);
-//
-//    // echo "tipe zapisali v file<br>";
-//
-//    // var_dump($userRow);
-//    // echo "<br>";
-//
-//    $user_id = $userRow[0]['id'];
-//
-//    $link = '../../public/test/'.$picName.'.png';
-//
-//    $this->model->insertLink($user_id, $link);
-//    fclose($myfile);
-//}
 

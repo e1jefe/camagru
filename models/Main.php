@@ -33,15 +33,23 @@ class Main extends Model {
 
     public function getPics()
     {
-        //print_r($this->db->query('SELECT * FROM pics'));
+         $user = $this->db->row("SELECT user_id FROM users WHERE user_login = :login", ['login' => $_SESSION['login']]);
+         //die("<pre>" . print_r($user, true) . "</pre>");
          $pics = $this->db->row('SELECT source FROM pics');
+         $likes = $this->db->row('SELECT likes FROM pics');
+         $liked_photos = $this->db->row("
+            SELECT source FROM pics 
+            LEFT JOIN likes 
+            ON pics.id_pic = likes.post_id
+            WHERE likes.user_id = {$user[0]['user_id']}
+         ");
+         $liked_photos = array_column($liked_photos, 'source');
         $i = 0;
         while ($i < count($pics))
         {
-            $vars[] = ($pics[$i]['source']);
+            $posts[$pics[$i]['source']] = $likes[$i]['likes'];
             $i++;
         }
-        return $vars;
+        return ['liked_photos' => $liked_photos, 'posts' => $posts];
     }
-
 }

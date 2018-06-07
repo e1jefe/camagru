@@ -1,3 +1,4 @@
+
 <div class="main">
         <div class="left">
             <?php if(isset($_SESSION['login'])): ?>
@@ -17,15 +18,24 @@
             <?php endif; ?>
         </div>
         <div class="middle">
-            <?php foreach ($vars as $item): ?>
+            <pre>
+                <?php
+                //print_r($vars);
+                ?>
+            </pre>
+            <?php foreach ($vars['posts'] as $item => $value): ?>
             <div class="hovergallery">
                 <img src=" <?php echo $item; ?> " alt="">
                 </div>
-                <div class="likes">
-                    <a class="likes" onclick="">
-                       <img src=/public/images/like2.png>
+                <form action="likecounter" method="post" name="like">
+                <div class="like-holder">
+                    <a class="likes" id="<?= $item?>">
+                        <input type="hidden" name="source">
+                        <img src="/public/images/<?= in_array($item, $vars['liked_photos']) ? 'like1.png' : 'like2.png' ?>">
                     </a>
+                    <p><?= $value ?></p>
                 </div>
+                </form>
                         <?php endforeach; ?>
         </div>
 
@@ -77,6 +87,33 @@
             request.send(body);
         };
     </script>
+
+        <script>
+            const btn = document.getElementsByClassName('likes');
+            for (i=0;i<btn.length;i++)
+            {
+                btn[i].addEventListener('click', like, false);
+            };
+            function like(e) {
+                var item = this.getAttribute('id');
+                var body = "key=" + item;
+                var request = new XMLHttpRequest();
+                request.open("POST", "http://localhost:8082/likecounter", true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                request.addEventListener("load", function(event) {
+                    console.log(event.target.responseText);
+                    var tmp = document.getElementById(item);
+                    var likeAmount = event.target.responseText;
+                    var oldLike = parseInt(tmp.nextElementSibling.innerHTML);
+                    if (likeAmount - oldLike == 1)
+                        tmp.getElementsByTagName('img')[0].setAttribute('src', '/public/images/like1.png')
+                    else
+                        tmp.getElementsByTagName('img')[0].setAttribute('src', '/public/images/like2.png')
+                    tmp.nextElementSibling.innerHTML = likeAmount;
+                });
+                request.send(body);
+            };
+        </script>
     <?php endif; ?>
 
 

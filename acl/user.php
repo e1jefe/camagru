@@ -13,7 +13,8 @@ return [
         'fb',
         'account',
         'changepass',
-        'uploadphoto'
+        'uploadphoto',
+        'likecounter'
     ],
     'authorize' => [
         'account'
@@ -26,7 +27,8 @@ return [
         'passwordrecovery',
         'changepassmail',
         'fb',
-        'changepass'
+        'changepass',
+        'likecounter'
     ],
     'admin' => [
         //

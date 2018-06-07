@@ -8,8 +8,9 @@ class View {
         $this->route = $route;
         $this->path = $route['controller'].'/'.$route['action'];
     }
-    public function render($title, $vars = []) {
+    public function render($title, $vars = [], $likes = []) {
         extract($vars);
+        extract($likes);
         if ($title != $this->route['action'])
         {
             $path = 'views/'.$this->route['controller'].'/'.$title.'.php';
