@@ -12,6 +12,10 @@
             <input type="text" name="email" placeholder="enter new email" value=""/>
             <button name="submit1"/>Change email</button>
             <button formaction="changepass"/>Change password</button>
-        </form>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <p>Status notification:<b><?= $notific?> </b></p>
+            <button name="submit2"/>On</button>
+            <button name="submit3"/>Off</button>
+         </form>
     </div>
 </section>

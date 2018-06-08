@@ -6,16 +6,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css">
     <link rel="stylesheet" href="../public/styles/style.css">
     <link rel="shortcut icon" href="/public/images/favico.ico" type="image/x-icon">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 </head>
 <body>
 <header>
     <h1><a href="/" class="ssilka">Camagru</a></h1>
     <nav>
         <?php if(isset($_SESSION['login'])): ?>
-            <a>Hi, </a>
+            <a>Hi,</a>
             <a href="http://localhost:8082/user/account">
+                <b>
                 <?php echo $_SESSION['login']?>
+                </b>
             </a>
             <a href="http://localhost:8082/user/logout">
                 Logout
@@ -41,4 +42,3 @@
 </footer>
 </body>
 </html>
-<!--<img src="/public/images/login.png">-->

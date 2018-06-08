@@ -25,10 +25,11 @@ class UserController extends Controller
                     echo "<script>alert(\"wrong pass or email didn't confirm\");</script>";
                 } else {
                     $_SESSION['login'] = $login;
+                    $_SESSION['user_id'] = $res[0]['user_id'];
                     $this->view->redirect('');
                 }
             }
-            if (isset($_SESSION['login'])) {
+            if (isset($_SESSION['login']) && isset($_SESSION['user_id'])) {
                 // показываем защищенные от гостей данные.
             } else
                 die;
@@ -38,6 +39,7 @@ class UserController extends Controller
     public function logoutAction()
     {
         unset($_SESSION['login']);
+        unset($_SESSION['user_id']);
         $this->view->redirect('');
     }
 
@@ -95,8 +97,8 @@ class UserController extends Controller
                 if (mb_strlen($_POST['passwd']) >= 7 && mb_strlen($_POST['passwd']) < 20) {
                     $password = (hash('whirlpool', ($_POST['passwd'])));
                 }
-                $connection->query("INSERT INTO users (user_login, user_password, email, email_confirmd, user_token
-)VALUES ('$login', '$password', '$email', 0, '$token')");
+                $connection->query("INSERT INTO users (user_login, user_password, email, email_confirmd, user_token, notific
+)VALUES ('$login', '$password', '$email', 0, '$token', 'Deactivated')");
                 //For sending mail
                 $encoding = "utf-8";
                 $mail_subject = "Verification";
@@ -247,6 +249,16 @@ class UserController extends Controller
                 $connection->query("UPDATE users SET email='$email' WHERE user_id= {$res[0]['user_id']}");
                 header("Refresh:1; account");
             }
+            else
+                if(isset($_POST['submit2'])){
+                    $connection->query("UPDATE users SET notific='Activated' WHERE user_id= {$res[0]['user_id']}");
+                    header("Refresh:1; account");
+                }
+                else
+                    if(isset($_POST['submit3'])){
+                        $connection->query("UPDATE users SET notific='Deactivated' WHERE user_id= {$res[0]['user_id']}");
+                        header("Refresh:1; account");
+                    }
     }
 
     public function changepassAction()
@@ -289,7 +301,7 @@ class UserController extends Controller
                 if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
                     $size = getimagesize($uploadfile);
                     if ($size[0] < 1200 && $size[1] < 5001) {
-                        $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend','1','0','')");
+                        $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
                         echo "<script>alert(\"Photo uploaded\");</script>";
                         header("Location: http://localhost:8082");
                         exit;
@@ -306,8 +318,9 @@ class UserController extends Controller
             $img = str_replace(' ', '+', $img);
             $img = base64_decode($img);
             $myfile = fopen($uploadfile, 'x');
+
             fwrite($myfile, $img);
-            $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend','1','0','')");
+            $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
             fclose($myfile);
             header("Location: http://localhost:8082");
         } else {echo "<script>alert(\"Файл не загружен, вернитеcь и попробуйте еще раз\");</script>";}
@@ -343,6 +356,9 @@ class UserController extends Controller
             }
         $tmp = $connection->row("SELECT * FROM pics WHERE source='$picLink'");
         echo $tmp[0]['likes'];
+    }
+    public function photoAction(){
+        $this->view->render('photo');
     }
 
 }
