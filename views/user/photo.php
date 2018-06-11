@@ -4,7 +4,6 @@
     </a>
 </div>
 <div class="btn-folder">
-
     <form enctype="multipart/form-data" action="uploadphoto" method="post">
         <input type="hidden" name="MAX_FILE_SIZE" value="64000">
         Send photo: <input name="userfile" type="file">
@@ -51,6 +50,7 @@
 
         <script>
 //            function take_stick() {
+
                 var pattern = document.querySelector('#stick').children;
                 for (var i = 0, child; child = pattern[i]; i++) {
                     child.onclick = function () {
@@ -61,12 +61,14 @@
                         }
                         var newElem = document.createElement('img');
                         newElem.id = 'new_stick';
-//                        newElem.style.display = 'none';
+                      //  sticker_holder.staticVar = newElem.id;
+//                        var uniqueID = function sticker_holder() {
+//                            return newElem.id;
+//                        }
+                        window.localStorage.globalVar = newElem;
                         newElem.style.position = 'absolute';
                         newElem.height = 300;
                         newElem.width = 100;
-//                        newElem.left = 0;
-
                         newElem.src = this.src;
                         parElem.appendChild(newElem);
                     };
@@ -78,6 +80,8 @@
                             }
                         }
                     };
+
+
 //                }
             }
         </script>
@@ -87,22 +91,25 @@
 <canvas id='canvas' width='640' height='480'></canvas>
 
     <script>
-        document.getElementById('snapshot').onclick = function() {
-            var video = document.querySelector('video');
-            var canvas = document.getElementById('canvas');
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(video,0,0,640,480);
-            var img = canvas.toDataURL('image/png');
-            var request = new XMLHttpRequest();
-            request.open("POST", "http://localhost:8082/uploadphoto", true);
-            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            var stick = document.getElementById('new_stick');
-            var body = 'image=' + img + '&stick=' + stick.src;
-            request.addEventListener("load", function(event) {
-                console.log(event.target.responseText);
-            });
-            request.send(body);
-        };
+
+            document.getElementById('snapshot').onclick = function () {
+                var video = document.querySelector('video');
+                var canvas = document.getElementById('canvas');
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, 640, 480);
+                var img = canvas.toDataURL('image/png');
+                var request = new XMLHttpRequest();
+                request.open("POST", "http://localhost:8082/uploadphoto", true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                console.log(window.localStorage.globalVar);
+                var stick = document.getElementById('new_stick');
+                var body = 'image=' + img + '&stick=' + stick.src;
+                request.addEventListener("load", function (event) {
+                   // console.log(event.target.responseText);
+                });
+                request.send(body);
+            };
+
     </script>
 
 <!--    <script>-->

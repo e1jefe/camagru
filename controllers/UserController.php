@@ -311,7 +311,7 @@ class UserController extends Controller
                     }
                 }
             }
-            else {  echo "<script>alert(\"Размер файла не должен превышать 1000Кб\");</script>";}
+            else {  echo "<script>alert(\"Too big pic for our site :/\");</script>";}
         }
         else if(isset($_POST['image'])){
             $img = str_replace('data:image/png;base64,', '', $_POST['image']);
@@ -323,7 +323,7 @@ class UserController extends Controller
             $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
             fclose($myfile);
             header("Location: http://localhost:8082");
-        } else {echo "<script>alert(\"Файл не загружен, вернитеcь и попробуйте еще раз\");</script>";}
+        } else {echo "<script>alert(\"File didn't upload\");</script>";}
     }
 
     public function likecounterAction(){
@@ -359,6 +359,9 @@ class UserController extends Controller
     }
     public function photoAction(){
         $this->view->render('photo');
+    }
+    public function commentsAction(){
+
     }
 
 }
