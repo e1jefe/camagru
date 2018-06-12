@@ -294,7 +294,7 @@ class UserController extends Controller
         $connection = new Db;
         $uploaddir = '/Users/dsheptun/proverki/cam/public/images/'; // это папка, в которую будет загружаться картинка
         $dir = '/public/images/';
-        $apend=date('YmdHis').rand(100,1000).'.jpg';
+        $apend=date('YmdHis').rand(100,1000).'.png';
         $uploadfile = $uploaddir . $apend;
         if (isset($_FILES['userfile'])) {
             if ($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size'] <= 1024000) {
@@ -316,21 +316,27 @@ class UserController extends Controller
         else if(isset($_POST['image'])){
             $img = str_replace('data:image/png;base64,', '', $_POST['image']);
             $img = str_replace(' ', '+', $img);
-            $img = base64_decode($img);
+//            $path = ROOT . "/public/images/" . $apend;
+//            $path = "/Users/dsheptun/proverki/cam/public/images/lol.png";
+//            $img = explode( ',', $_POST['image']);
+            $ifp = fopen($uploadfile , 'wb');
+//            fwrite($ifp, base64_decode($img[1]));
+            fclose($ifp);
+            $mp = base64_decode($img);
+            file_put_contents($uploadfile, $mp);
             $sticker = $_POST['stick'];
-            $gd_photo = imagecreatefromstring($img);
-            $gd_filter = imagecreatefrompng($sticker);
-            imagecopy($gd_photo, $gd_filter, 0, 0, 0, 0, imagesx($gd_filter), imagesy($gd_filter));
-            ob_start();
-            imagepng($gd_photo);
-            $image_data = ob_get_contents();
-            ob_end_clean();
+            $img1 = imagecreatefrompng($uploadfile);
+            $img2 = imagecreatefrompng($sticker);
+            $x2 = imagesx($img2);
+            $y2 = imagesy($img2);
+            imagecopyresampled($img1, $img2, 0, 0, 0, 0, $x2, $y2, $x2, $y2);
+            imagepng($img1, $uploadfile, 9);
+//            exit;
             $myfile = fopen($uploadfile, 'x');
             fwrite($myfile, $img);
             $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
             fclose($myfile);
             header("Location: http://localhost:8082");
-           echo "data:image/png;base64,".base64_encode($image_data);
         } else {echo "<script>alert(\"File didn't upload\");</script>";}
     }
 

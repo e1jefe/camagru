@@ -43,10 +43,12 @@
     </script>
     <div id="stick" style="display: none; " >
         <img id="1" width="40px" height="60px" src="/public/images/1.png" >
-        <img width="40px" height=60 src="/public/images/2.png" >
+<!--        <img width="40px" height=60 src="/public/images/2.jpg" >-->
         <img width="40px" height=60 src="/public/images/3.png" >
         <img width=60 height=140 src="/public/images/4.png" >
-        <img width=60 height=140 src="/public/images/5.jpg" >
+        <img width=60 height=140 src="/public/images/5.png" >
+        <img width="40px" height=60 src="/public/images/6.png" >
+        <img width="40px" height=60 src="/public/images/7.png" >
 
         <script>
 //            function take_stick() {
@@ -100,16 +102,37 @@
                 request.open("POST", "http://localhost:8082/uploadphoto", true);
                 request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
              //   console.log(window.localStorage.globalVar);
-                console.log(stick);
+//                console.log(stick);
                 var body = 'image=' + img + '&stick=' + stick;
                // request.addEventListener("load", function (event) {
                    // console.log(event.target.responseText);
             //   });
                 request.send(body);
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4) {
+                        console.log(request.responseText);
+                    }
+                }
             };
 
     </script>
 
+<!--$ifp = fopen($path . "/" . $outputFile, 'wb');-->
+<!--$data = explode( ',', $imageBaseCode );-->
+<!--fwrite($ifp, base64_decode($data[1]));-->
+<!--fclose($ifp);-->
+<!--$imgSmall = 'matrixheroes.png'; //Тут надо доделать, указыватьб фото не ручка-->
+<!--$img1 = imagecreatefrompng($path . DIRECTORY_SEPARATOR . $outputFile);-->
+<!--$img2 = imagecreatefrompng($path . DIRECTORY_SEPARATOR . $imgSmall);-->
+<!--if($img1 && $img2) {-->
+<!--$x2 = imagesx($img2);-->
+<!--$y2 = imagesy($img2);-->
+<!--imagecopyresampled($img1, $img2, -70, -5, 0, 0, $x2, $y2, $x2, $y2);-->
+<!--imagepng($img1, $path . "/" . $outputFile, 9);-->
+<!--header('Location: /camagru/');-->
+<!--}else {-->
+<!--ErrorController::errorPage();-->
+<!--}-->
 <!--if (overlay)-->
 <!--{-->
 <!--var image = canvas.toDataURL("image/png");-->
