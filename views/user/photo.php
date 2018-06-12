@@ -41,8 +41,8 @@
             }
         })
     </script>
-    <div id="stick" style="display: none; ">
-        <img id="1" width="40px" height="60px" src="/public/images/1.png">
+    <div id="stick" style="display: none; " >
+        <img id="1" width="40px" height="60px" src="/public/images/1.png" >
         <img width="40px" height=60 src="/public/images/2.png" >
         <img width="40px" height=60 src="/public/images/3.png" >
         <img width=60 height=140 src="/public/images/4.png" >
@@ -61,15 +61,11 @@
                         }
                         var newElem = document.createElement('img');
                         newElem.id = 'new_stick';
-                      //  sticker_holder.staticVar = newElem.id;
-//                        var uniqueID = function sticker_holder() {
-//                            return newElem.id;
-//                        }
-                        window.localStorage.globalVar = newElem;
                         newElem.style.position = 'absolute';
                         newElem.height = 300;
                         newElem.width = 100;
                         newElem.src = this.src;
+                        window.localStorage.globalVar = newElem.src;
                         parElem.appendChild(newElem);
                     };
                     child.ondblclick = function () {
@@ -97,21 +93,42 @@
                 var canvas = document.getElementById('canvas');
                 var ctx = canvas.getContext('2d');
                 ctx.drawImage(video, 0, 0, 640, 480);
+                var stick = window.localStorage.globalVar;
                 var img = canvas.toDataURL('image/png');
                 var request = new XMLHttpRequest();
+                var response = request.responseText;
                 request.open("POST", "http://localhost:8082/uploadphoto", true);
                 request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                console.log(window.localStorage.globalVar);
-                var stick = document.getElementById('new_stick');
-                var body = 'image=' + img + '&stick=' + stick.src;
-                request.addEventListener("load", function (event) {
+             //   console.log(window.localStorage.globalVar);
+                console.log(stick);
+                var body = 'image=' + img + '&stick=' + stick;
+               // request.addEventListener("load", function (event) {
                    // console.log(event.target.responseText);
-                });
+            //   });
                 request.send(body);
             };
 
     </script>
 
+<!--if (overlay)-->
+<!--{-->
+<!--var image = canvas.toDataURL("image/png");-->
+<!---->
+<!--var xmlhttp = new XMLHttpRequest();-->
+<!--var response = xmlhttp.responseText;-->
+<!---->
+<!--xmlhttp.onreadystatechange = function()-->
+<!--{-->
+<!--if (xmlhttp.readyState == 4 && xmlhttp.status == 200)-->
+<!--{-->
+<!--var response = xmlhttp.responseText;-->
+<!--img.src = response;-->
+<!--}-->
+<!--};-->
+<!--xmlhttp.open("POST", "compare.php", true);-->
+<!--xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");-->
+<!--xmlhttp.send("overlay=" + overlay.src + "&photo=" + image);-->
+<!--}-->
 <!--    <script>-->
 <!--        const btn = document.getElementsByClassName('likes');-->
 <!--        for (i=0;i<btn.length;i++)-->

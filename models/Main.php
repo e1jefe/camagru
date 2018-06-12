@@ -17,8 +17,8 @@ class Main extends Model
             $user = $this->db->row("SELECT user_id FROM users 
                                       WHERE user_login = :login", ['login' => $_SESSION['login']]);
         }
-        $pics = $this->db->row('SELECT source FROM pics');
-        $likes = $this->db->row('SELECT likes FROM pics');
+        $pics = $this->db->row('SELECT source FROM pics ORDER BY id_pic DESC');
+        $likes = $this->db->row('SELECT likes FROM pics ORDER BY id_pic DESC');
             $liked_photos = $this->db->row("
             SELECT source FROM pics 
             LEFT JOIN likes 

@@ -15,7 +15,8 @@ return [
         'changepass',
         'uploadphoto',
         'likecounter',
-        'photo'
+        'photo',
+        'new'
     ],
     'authorize' => [
         'account'

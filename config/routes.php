@@ -84,4 +84,8 @@ return [
     'controller' => 'user',
     'action' => 'likecounter',
     ],
+    'new' => [
+        'controller' => 'user',
+        'action' => 'new',
+    ],
 ];

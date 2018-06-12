@@ -317,12 +317,20 @@ class UserController extends Controller
             $img = str_replace('data:image/png;base64,', '', $_POST['image']);
             $img = str_replace(' ', '+', $img);
             $img = base64_decode($img);
+            $sticker = $_POST['stick'];
+            $gd_photo = imagecreatefromstring($img);
+            $gd_filter = imagecreatefrompng($sticker);
+            imagecopy($gd_photo, $gd_filter, 0, 0, 0, 0, imagesx($gd_filter), imagesy($gd_filter));
+            ob_start();
+            imagepng($gd_photo);
+            $image_data = ob_get_contents();
+            ob_end_clean();
             $myfile = fopen($uploadfile, 'x');
-
             fwrite($myfile, $img);
             $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
             fclose($myfile);
             header("Location: http://localhost:8082");
+           echo "data:image/png;base64,".base64_encode($image_data);
         } else {echo "<script>alert(\"File didn't upload\");</script>";}
     }
 
@@ -366,4 +374,32 @@ class UserController extends Controller
 
 }
 
-
+//$photo = $_POST['photo'];
+//
+//$photo = preg_replace("/^.+base64,/", "", $_POST['photo']);
+//$photo = str_replace(' ','+',$photo);
+//$image_data = base64_decode($photo);
+//$name = "img/users/photo".$_SERVER['REQUEST_TIME'].".png";
+//
+//$www = file_put_contents($name, $image_data);
+//
+//$connect = new Db;
+//$user = $_SESSION['user'];
+//$connect->query("INSERT INTO images (`user_name`, img_src, `likes`) VALUES ('$user', '$name', 0)");
+//$overlayPath = $_POST['overlay'];
+//
+//$photo = preg_replace("/^.+base64,/", "", $_POST['photo']);
+//$photo = str_replace(' ','+',$photo);
+//$photo = base64_decode($photo);
+//
+//$gd_photo = imagecreatefromstring($photo);
+//$gd_filter = imagecreatefrompng($overlayPath);
+//
+//imagecopy($gd_photo, $gd_filter, 0, 0, 0, 0, imagesx($gd_filter), imagesy($gd_filter));
+//
+//ob_start();
+//imagepng($gd_photo);
+//$image_data = ob_get_contents();
+//ob_end_clean();
+//
+//echo "data:image/png;base64,".base64_encode($image_data);
