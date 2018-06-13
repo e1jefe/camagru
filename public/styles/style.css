@@ -171,22 +171,29 @@ footer.container {
     flex-direction: column;
     text-align: center;
 }
-
+.main .picture-post{
+    /*width: 500px;	height: 500px; !* Размеры *!*/
+    /*!*background: #fc0; !* Цвет фона *!*!*/
+    /*outline: 2px solid #000; !* Чёрная рамка *!*/
+    /*border: 3px solid #fff; !* Белая рамка *!*/
+    /*border-radius: 10px; !* Радиус скругления *!*/
+}
 .gallery img{
     margin:5px; /* внешние отступы картинок */
     border:3px solid #fff; /* рамка картинок */
+    border-radius: 10px;
 }
 a.photo:hover img{
     border:3px solid #034F80; /* изменение цвета рамки при наведении на картинку */
 }
 .hovergallery img{
-    -webkit-transform:scale(0.8); /*Webkit: уменьшаем размер до 0.8*/
-    -moz-transform:scale(0.8); /*Mozilla: масштабирование*/
-    -o-transform:scale(0.8); /*Opera: масштабирование*/
+    -webkit-transform:scale(0.87); /*Webkit: уменьшаем размер до 0.8*/
+    -moz-transform:scale(0.87); /*Mozilla: масштабирование*/
+    -o-transform:scale(0.87); /*Opera: масштабирование*/
     -webkit-transition-duration: 0.5s; /*Webkit: длительность анимации*/
     -moz-transition-duration: 0.5s; /*Mozilla: длительность анимации*/
     -o-transition-duration: 0.5s; /*Opera: длительность анимации*/
-    opacity: 0.7; /*Начальная прозрачность изображений*/
+    opacity: 1; /*Начальная прозрачность изображений*/
     margin: 0 10px 7px 0; /*Интервалы между изображениями*/
 }
 

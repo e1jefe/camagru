@@ -36,22 +36,19 @@
                     );
                 }
                 document.getElementById('stick').style.display = "flex";
-//                document.getElementById('camera').style.flexDirection= "row";
                 document.getElementById('stick').style.flexDirection = "column";
             }
         })
     </script>
     <div id="stick" style="display: none; " >
-        <img id="1" width="40px" height="60px" src="/public/images/1.png" >
-<!--        <img width="40px" height=60 src="/public/images/2.jpg" >-->
+        <img width="40px" height="60px" src="/public/images/1.png" >
         <img width="40px" height=60 src="/public/images/3.png" >
-        <img width=60 height=140 src="/public/images/4.png" >
-        <img width=60 height=140 src="/public/images/5.png" >
+        <img width="40px" height=140 src="/public/images/4.png" >
+        <img width="40px" height=140 src="/public/images/5.png" >
         <img width="40px" height=60 src="/public/images/6.png" >
         <img width="40px" height=60 src="/public/images/7.png" >
 
         <script>
-//            function take_stick() {
 
                 var pattern = document.querySelector('#stick').children;
                 for (var i = 0, child; child = pattern[i]; i++) {
@@ -78,9 +75,6 @@
                             }
                         }
                     };
-
-
-//                }
             }
         </script>
     </div>
@@ -116,75 +110,4 @@
             };
 
     </script>
-
-<!--$ifp = fopen($path . "/" . $outputFile, 'wb');-->
-<!--$data = explode( ',', $imageBaseCode );-->
-<!--fwrite($ifp, base64_decode($data[1]));-->
-<!--fclose($ifp);-->
-<!--$imgSmall = 'matrixheroes.png'; //Тут надо доделать, указыватьб фото не ручка-->
-<!--$img1 = imagecreatefrompng($path . DIRECTORY_SEPARATOR . $outputFile);-->
-<!--$img2 = imagecreatefrompng($path . DIRECTORY_SEPARATOR . $imgSmall);-->
-<!--if($img1 && $img2) {-->
-<!--$x2 = imagesx($img2);-->
-<!--$y2 = imagesy($img2);-->
-<!--imagecopyresampled($img1, $img2, -70, -5, 0, 0, $x2, $y2, $x2, $y2);-->
-<!--imagepng($img1, $path . "/" . $outputFile, 9);-->
-<!--header('Location: /camagru/');-->
-<!--}else {-->
-<!--ErrorController::errorPage();-->
-<!--}-->
-<!--if (overlay)-->
-<!--{-->
-<!--var image = canvas.toDataURL("image/png");-->
-<!---->
-<!--var xmlhttp = new XMLHttpRequest();-->
-<!--var response = xmlhttp.responseText;-->
-<!---->
-<!--xmlhttp.onreadystatechange = function()-->
-<!--{-->
-<!--if (xmlhttp.readyState == 4 && xmlhttp.status == 200)-->
-<!--{-->
-<!--var response = xmlhttp.responseText;-->
-<!--img.src = response;-->
-<!--}-->
-<!--};-->
-<!--xmlhttp.open("POST", "compare.php", true);-->
-<!--xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");-->
-<!--xmlhttp.send("overlay=" + overlay.src + "&photo=" + image);-->
-<!--}-->
-<!--    <script>-->
-<!--        const btn = document.getElementsByClassName('likes');-->
-<!--        for (i=0;i<btn.length;i++)-->
-<!--        {-->
-<!--            btn[i].addEventListener('click', like, false);-->
-<!--        };-->
-<!--        function like(e) {-->
-<!--            var item = this.getAttribute('id');-->
-<!--            var body = "key=" + item;-->
-<!--            var request = new XMLHttpRequest();-->
-<!--            request.open("POST", "http://localhost:8082/likecounter", true);-->
-<!--            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');-->
-<!--            request.addEventListener("load", function(event) {-->
-<!--                console.log(event.target.responseText);-->
-<!--                var tmp = document.getElementById(item);-->
-<!--                var likeAmount = event.target.responseText;-->
-<!--                var oldLike = parseInt(tmp.nextElementSibling.innerHTML);-->
-<!--                if (likeAmount - oldLike == 1)-->
-<!--                    tmp.getElementsByTagName('img')[0].setAttribute('src', '/public/images/like1.png')-->
-<!--                else-->
-<!--                    tmp.getElementsByTagName('img')[0].setAttribute('src', '/public/images/like2.png')-->
-<!--                tmp.nextElementSibling.innerHTML = likeAmount;-->
-<!--            });-->
-<!--            request.send(body);-->
-<!--        };-->
-<!--    </script>-->
-<!--    <div id="stick" style="display: none">-->
-<!--        <img width=40 height=60 src="/public/images/1.png">-->
-<!--        <img width=40 height=60 src="/public/images/2.png">-->
-<!--        <img width=40 height=60 src="/public/images/3.png">-->
-<!--        <img width=60 height=140 src="/public/images/4.png">-->
-<!--        <img width=60 height=140 src="/public/images/5.jpg">-->
-<!--    </div>-->
-
-
 <?php endif; ?>

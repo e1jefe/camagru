@@ -19,7 +19,7 @@ class Main extends Model
         }
         $pics = $this->db->row('SELECT source FROM pics ORDER BY id_pic DESC');
         $likes = $this->db->row('SELECT likes FROM pics ORDER BY id_pic DESC');
-            $liked_photos = $this->db->row("
+        $liked_photos = $this->db->row("
             SELECT source FROM pics 
             LEFT JOIN likes 
             ON pics.id_pic = likes.post_id

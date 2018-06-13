@@ -11,6 +11,7 @@
             <?php endif; ?>
         </div>
         <div class="middle">
+            <div class="picture-post">
             <?php foreach ($vars['posts'] as $item => $value): ?>
             <div class="hovergallery">
                 <img src=" <?php echo $item; ?> " alt="">
@@ -25,60 +26,22 @@
                     <p><?= $value ?></p>
                     <br>
                 </div>
+
                 </form>
+                    <div class="comments">
+                        <p><Br>
+                            <textarea name="comment" cols="30" rows="2"></textarea></p>
+                        <p><input type="submit" value="Send">
+                        </p>
+                    </div>
                 <?php endif; ?>
                         <?php endforeach; ?>
+            </div>
         </div>
         <div class="right"></div>
     </div>
 
     <?php if(isset($_SESSION['login'])): ?>
-<!--    <video autoplay muted></video>-->
-<!--    <script>-->
-<!--        var photo = document.getElementsByClassName('btn-photo');-->
-<!--        photo[0].addEventListener('click', function () {-->
-<!--            {-->
-<!--                if (navigator.webkitGetUserMedia != null) {-->
-<!--                    var options = {-->
-<!--                        video: true,-->
-<!--                        audio: true-->
-<!--                    };-->
-<!--// запрашиваем доступ к веб-камере-->
-<!--                    navigator.webkitGetUserMedia(options,-->
-<!--                        function (stream) {-->
-<!--// получаем тег video-->
-<!--                            var video = document.querySelector('video');-->
-<!--// включаем поток в магический URL-->
-<!--                            video.srcObject = stream;-->
-<!--                        },-->
-<!--                        function () {-->
-<!--                            console.log("error happened");-->
-<!--                        }-->
-<!--                    );-->
-<!--                }-->
-<!--                document.getElementById('stick').style.display= "flex";-->
-<!--            }-->
-<!--        })-->
-<!--    </script>-->
-<!--    <form ><input type='button' id='snapshot' value="snapshot"></form>-->
-<!--    <canvas id='canvas' width='640' height='640' ></canvas>-->
-<!--    <script>-->
-<!--        document.getElementById('snapshot').onclick = function() {-->
-<!--            var video = document.querySelector('video');-->
-<!--            var canvas = document.getElementById('canvas');-->
-<!--            var ctx = canvas.getContext('2d');-->
-<!--            ctx.drawImage(video,0,0,640,640);-->
-<!--            var img = canvas.toDataURL();-->
-<!--            var request = new XMLHttpRequest();-->
-<!--            request.open("POST", "http://localhost:8082/uploadphoto", true);-->
-<!--            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');-->
-<!--            var body = 'image=' + img;-->
-<!--            request.addEventListener("load", function(event) {-->
-<!--                console.log(event.target.responseText);-->
-<!--            });-->
-<!--            request.send(body);-->
-<!--        };-->
-<!--    </script>-->
 
         <script>
             const btn = document.getElementsByClassName('likes');
@@ -106,11 +69,10 @@
                 request.send(body);
             };
         </script>
-        <div id="stick" style="display: none">
-            <img width=40 height=60 src="/public/images/1.png">
-            <img width=40 height=60 src="/public/images/2.png">
-            <img width=40 height=60 src="/public/images/3.png">
-            <img width=60 height=140 src="/public/images/4.png">
-            <img width=60 height=140 src="/public/images/5.jpg">
-        </div>
+<!--        <div id="stick" style="display: none">-->
+<!--            <img width=40 height=60 src="/public/images/1.png">-->
+<!--            <img width=40 height=60 src="/public/images/3.png">-->
+<!--            <img width=60 height=140 src="/public/images/4.png">-->
+<!--            <img width=60 height=140 src="/public/images/5.png">-->
+<!--        </div>-->
     <?php endif; ?>

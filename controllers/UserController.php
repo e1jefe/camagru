@@ -1,7 +1,6 @@
 <?php
 namespace controllers;
 use core\Controller;
-use models\Admin;
 use lib\Db;
 include ROOT.'/views/user/config.php';
 class UserController extends Controller
@@ -379,33 +378,3 @@ class UserController extends Controller
     }
 
 }
-
-//$photo = $_POST['photo'];
-//
-//$photo = preg_replace("/^.+base64,/", "", $_POST['photo']);
-//$photo = str_replace(' ','+',$photo);
-//$image_data = base64_decode($photo);
-//$name = "img/users/photo".$_SERVER['REQUEST_TIME'].".png";
-//
-//$www = file_put_contents($name, $image_data);
-//
-//$connect = new Db;
-//$user = $_SESSION['user'];
-//$connect->query("INSERT INTO images (`user_name`, img_src, `likes`) VALUES ('$user', '$name', 0)");
-//$overlayPath = $_POST['overlay'];
-//
-//$photo = preg_replace("/^.+base64,/", "", $_POST['photo']);
-//$photo = str_replace(' ','+',$photo);
-//$photo = base64_decode($photo);
-//
-//$gd_photo = imagecreatefromstring($photo);
-//$gd_filter = imagecreatefrompng($overlayPath);
-//
-//imagecopy($gd_photo, $gd_filter, 0, 0, 0, 0, imagesx($gd_filter), imagesy($gd_filter));
-//
-//ob_start();
-//imagepng($gd_photo);
-//$image_data = ob_get_contents();
-//ob_end_clean();
-//
-//echo "data:image/png;base64,".base64_encode($image_data);
