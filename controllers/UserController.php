@@ -71,14 +71,11 @@ class UserController extends Controller
             # check login
             if (!preg_match("/^[a-zA-Z0-9]+$/", $login)) {
                 echo "<script>alert(\"Enter latynic char and numbers only\");</script>";
-                $err[] = "Enter latynic char and numbers only";
             }
             if (strlen($login) < 3 or strlen($login) > 30) {
                 echo "<script>alert(\"Login must be more than 3 and less than 30 char\");</script>";
-                $err[] = "Login must be more than 3 and less than 30 char";
             }
             if (strcmp($_POST['passwd'], $_POST['confpasswd'])) {
-                $err[] = "Password does not match";
                 echo "<script>alert(\"Password does not match\");</script>";
             }
             # check matching login
@@ -86,7 +83,9 @@ class UserController extends Controller
             $res2 = $connection->row("SELECT * FROM users WHERE email='$email'");
             if ($res != null || $res2 != null) {
                 echo "<script>alert(\"User with this login/email already register\");</script>";
-                $err[] = "User with this login/email already register";
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            echo "<script>alert(\"Wrong email format\");</script>";
             }
             # register if no err
             if (count($err) == 0) {
@@ -214,25 +213,31 @@ class UserController extends Controller
         if ($_GET['code']) {
             $token = json_decode(file_get_contents('https://graph.facebook.com/v2.9/oauth/access_token?client_id=' . ID . '&redirect_uri=' . URL . '&client_secret=' . SECRET . '&code=' . $_GET['code']), true);
             $data = json_decode(file_get_contents('https://graph.facebook.com/v2.9/me?client_id=' . ID . '&redirect_uri=' . URL . '&client_secret=' . SECRET . '&code=' . $_GET['code'] . '&access_token=' . $token['access_token'] . '&fields=id,name,email,gender,location'), true);
-            $res = $connection->row("SELECT * FROM users WHERE used_id");
             $id = $data['id'];
             $login = $data['name'];
             $email = $data['email'];
-            if ($res['user_id'] == NULL) {
-                $connection->query("INSERT INTO users (user_id, user_login, email, user_token)VALUES ('$id','$login','$email','FB')");
+            $res = $connection->row("SELECT * FROM users WHERE user_password='$id'");
+
+            if ($res[0]['user_id'] == NULL) {
+                $connection->query("INSERT INTO users (user_login, user_password, email, email_confirmd, user_token, notific)                                      
+                                        VALUES ('$login', '$id', '$email', 1, 'FB', 'Deactivated')");
+                $idFromBase = $connection->row("SELECT * FROM users WHERE user_password= '$id'");
                 $_SESSION['login'] = $login;
+                $_SESSION['user_id'] = $idFromBase[0]['user_id'];
                 $this->view->redirect('');
-            } else if ($data['id'] == $res['user_id']) {
-//                $_SESSION['login'] = $login;
+            } else if ($data['id'] == $res[0]['user_password']) {
                 $_SESSION['login'] = $res[0]['user_login'];
+                $_SESSION['user_id'] = $res[0]['user_id'];
                 $this->view->redirect('');
             }
         }
+        else
+            "<script>alert(\"Wakawakwaka oooops, smth wrong, try again\");</script>";
     }
+
 
     public function accountAction()
     {
-
         $connection = new Db;
         $login = $_SESSION['login'];
         $res = $connection->row("SELECT * FROM users WHERE user_login='$login'");
@@ -245,8 +250,12 @@ class UserController extends Controller
         } else
             if (isset($_POST['submit1'])) {
                 $email = ($_POST['email']);
-                $connection->query("UPDATE users SET email='$email' WHERE user_id= {$res[0]['user_id']}");
-                header("Refresh:1; account");
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $connection->query("UPDATE users SET email='$email' WHERE user_id= {$res[0]['user_id']}");
+                    header("Refresh:1; account");
+                }
+                else
+                    echo "<script>alert(\"Wrong email format\");</script>";
             }
             else
                 if(isset($_POST['submit2'])){
@@ -342,8 +351,8 @@ class UserController extends Controller
     public function likecounterAction(){
         $connection = new Db;
         $picLink = $_POST['key'];
-        $tmp = $connection->row("SELECT * FROM pics WHERE source='$picLink'");
-        $likeAmount = $tmp[0]['likes'];
+        $tmp = $connection->row("SELECT * FROM pics WHERE id_pic='$picLink'");
+//        $likeAmount = $tmp[0]['likes'];
         $pic_id = $tmp[0]['id_pic'];
         $likeArr = $connection->row("SELECT * FROM likes WHERE post_id='$pic_id'");
         $login = $_SESSION['login'];
@@ -367,14 +376,25 @@ class UserController extends Controller
                 $connection->query("DELETE FROM likes WHERE user_id='$user_id' AND post_id='$pic_id'");
               $connection->query("UPDATE pics SET likes={$tmp[0]['likes']} - 1  WHERE id_pic= $pic_id");
             }
-        $tmp = $connection->row("SELECT * FROM pics WHERE source='$picLink'");
+        $tmp = $connection->row("SELECT * FROM pics WHERE id_pic='$picLink'");
         echo $tmp[0]['likes'];
     }
     public function photoAction(){
         $this->view->render('photo');
     }
-    public function commentsAction(){
-
+    public function deletephotoAction(){
+        $connection = new Db;
+        $picId = $_GET['id_pic'];
+        $connection->query("DELETE FROM pics WHERE id_pic='$picId'");
+        $connection->query("DELETE FROM likes WHERE id_pic='$picId'");
+        $connection->query("DELETE FROM comments WHERE id_pic='$picId'");
+        header("Location: http://localhost:8082");
     }
-
+    public function commentsAction(){
+        $connection = new Db;
+        $picId = $_POST['key'];
+//        $tmp = $connection->row("SELECT * FROM pics WHERE source='$picLink'");
+//        $pic_id = $tmp[0]['id_pic'];
+        var_dump($picId );
+    }
 }

@@ -16,7 +16,9 @@ return [
         'uploadphoto',
         'likecounter',
         'photo',
-        'new'
+        'new',
+        'comments',
+        'deletephoto'
     ],
     'authorize' => [
         'account'
@@ -30,7 +32,8 @@ return [
         'changepassmail',
         'fb',
         'changepass',
-        'likecounter'
+        'likecounter',
+        'comments'
     ],
     'admin' => [
         //

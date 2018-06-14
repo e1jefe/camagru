@@ -88,4 +88,12 @@ return [
         'controller' => 'user',
         'action' => 'new',
     ],
+    'comments' => [
+        'controller' => 'user',
+        'action' => 'comments',
+    ],
+    'deletephoto(.*)' => [
+    'controller' => 'user',
+    'action' => 'deletephoto',
+    ]
 ];

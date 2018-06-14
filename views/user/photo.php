@@ -49,7 +49,6 @@
         <img width="40px" height=60 src="/public/images/7.png" >
 
         <script>
-
                 var pattern = document.querySelector('#stick').children;
                 for (var i = 0, child; child = pattern[i]; i++) {
                     child.onclick = function () {
@@ -83,7 +82,6 @@
 <canvas id='canvas' width='640' height='480'></canvas>
 
     <script>
-
             document.getElementById('snapshot').onclick = function () {
                 var video = document.querySelector('video');
                 var canvas = document.getElementById('canvas');
@@ -95,12 +93,7 @@
                 var response = request.responseText;
                 request.open("POST", "http://localhost:8082/uploadphoto", true);
                 request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-             //   console.log(window.localStorage.globalVar);
-//                console.log(stick);
                 var body = 'image=' + img + '&stick=' + stick;
-               // request.addEventListener("load", function (event) {
-                   // console.log(event.target.responseText);
-            //   });
                 request.send(body);
                 request.onreadystatechange = function () {
                     if (request.readyState == 4) {
@@ -108,6 +101,11 @@
                     }
                 }
             };
-
+//            var img = new Image();
+//            img.addEventListener("load", function() {
+//                canvas.getContext("2d").drawImage(img, 0, 0, 640, 480);
+//
+//            });
+//            img.src = someLink;
     </script>
 <?php endif; ?>

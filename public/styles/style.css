@@ -171,6 +171,14 @@ footer.container {
     flex-direction: column;
     text-align: center;
 }
+.main .comments img {
+    width: 3%;
+    opacity: 0.7;
+}
+.main .deletephoto img {
+    width: 3%;
+    opacity: 0.5;
+}
 .main .picture-post{
     /*width: 500px;	height: 500px; !* Размеры *!*/
     /*!*background: #fc0; !* Цвет фона *!*!*/
@@ -207,9 +215,9 @@ a.photo:hover img{
     opacity: 1;
 }
 .main .middle .like-holder {
-    width: 15%;
+    width: 11%;
     position: inherit;
-    opacity: 0.7;
+    opacity: 0.6;
     display: inline-block;
 }
 #snapshot{

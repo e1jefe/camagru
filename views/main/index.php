@@ -12,37 +12,50 @@
         </div>
         <div class="middle">
             <div class="picture-post">
-            <?php foreach ($vars['posts'] as $item => $value): ?>
+            <?php foreach ($vars['posts'] as $post): ?>
+                <p> <b> <?= $post['user_login'] ?></b></p>
             <div class="hovergallery">
-                <img src=" <?php echo $item; ?> " alt="">
+                <img src=" <?php echo $post['source']; ?> " alt="">
                 </div>
                 <?php if(isset($_SESSION['login'])): ?>
                 <form action="likecounter" method="post" name="like">
                 <div class="like-holder">
-                    <a class="likes" id="<?= $item?>">
-                        <input type="hidden" name="source">
-                        <img src="/public/images/<?= in_array($item, $vars['liked_photos']) ? 'like1.png' : 'like2.png' ?>">
+                    <a class="likes" id="<?=$post['id_pic'] ?>">
+                        <input type="hidden" name="id_pic" value="<?$post['id_pic'] ?>">
+                        <img src="/public/images/<?= in_array($post['id_pic'], $vars['liked_photos']) ? 'like1.png' : 'like2.png' ?>">
                     </a>
-                    <p><?= $value ?></p>
-                    <br>
+                    <p><?= $post['likes'] ?></p>
                 </div>
-
                 </form>
-                    <div class="comments">
-                        <p><Br>
-                            <textarea name="comment" cols="30" rows="2"></textarea></p>
-                        <p><input type="submit" value="Send">
-                        </p>
+                     <div data-post-id="<?=$post['id_pic'] ?>" class="comments">
+                         <a href="#" title="Add comment" class="add-comment">
+                            <img src="/public/images/comm.png">
+                         </a>
+                         <div style="display: none;">
+                             <form action="comments" style="border:0px solid #888; padding:20px;" method="post" name="form_com" >
+                                 <textarea placeholder=" enter comment..." name="text" cols="30" rows="2"  style="resize: none"></textarea>
+                                 <p><input name="sub_com" type="submit" value="Vjuuhhh"></p>
+                             </form>
+                         </div>
                     </div>
+                    <?php if(($_SESSION['user_id']) == $post['user_id']): ?>
+                        <div id="" class="deletephoto">
+                            <a href="deletephoto?id_pic=<?=$post['id_pic'] ?>" title="Add comment" class="del-photo">
+                                <img src="/public/images/delete.png">
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 <?php endif; ?>
-                        <?php endforeach; ?>
+            <?php endforeach; ?>
             </div>
+            <pre>
+
+            </pre>
         </div>
         <div class="right"></div>
     </div>
 
     <?php if(isset($_SESSION['login'])): ?>
-
         <script>
             const btn = document.getElementsByClassName('likes');
             for (i=0;i<btn.length;i++)
@@ -69,10 +82,20 @@
                 request.send(body);
             };
         </script>
-<!--        <div id="stick" style="display: none">-->
-<!--            <img width=40 height=60 src="/public/images/1.png">-->
-<!--            <img width=40 height=60 src="/public/images/3.png">-->
-<!--            <img width=60 height=140 src="/public/images/4.png">-->
-<!--            <img width=60 height=140 src="/public/images/5.png">-->
-<!--        </div>-->
     <?php endif; ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let commentButtons = document.getElementsByClassName('add-comment');
+        for (let i = 0; i < commentButtons.length; i++) {
+            commentButtons[i].addEventListener('click', function (e) {
+                e.preventDefault();
+                if (e.target.parentElement.nextElementSibling.style.display == 'none') {
+                    e.target.parentElement.nextElementSibling.style.display = 'block';
+                }
+                else
+                    e.target.parentElement.nextElementSibling.style.display = 'none';
+            })
+        }
+    });
+</script>
