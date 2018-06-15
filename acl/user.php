@@ -18,7 +18,8 @@ return [
         'photo',
         'new',
         'comments',
-        'deletephoto'
+        'deletephoto',
+        'yourphotos'
     ],
     'authorize' => [
         'account'
@@ -33,7 +34,8 @@ return [
         'fb',
         'changepass',
         'likecounter',
-        'comments'
+        'comments',
+        'yourphotos'
     ],
     'admin' => [
         //

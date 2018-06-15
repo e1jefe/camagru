@@ -337,7 +337,7 @@ class UserController extends Controller
             imagepng($img1, $uploadfile, 9);
             $myfile = fopen($uploadfile, 'x');
             fwrite($myfile, $img);
-            $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
+            $connection->query("INSERT INTO pics (source, user_id, likes)VALUES ('$dir$apend',{$_SESSION['user_id']},'0')");
             fclose($myfile);
             header("Location: http://localhost:8082");
         } else {echo "<script>alert(\"File didn't upload\");</script>";}
@@ -391,11 +391,11 @@ class UserController extends Controller
         $comment = $_POST['commentTxt'];
         $connection->query("INSERT INTO comments (id_pic, id_user, comment)VALUES ('$picId',{$_SESSION['user_id']}, '$comment')");
         $res1 = $connection->row("SELECT * FROM pics WHERE id_pic='$picId'");
-        echo $res1[0]['user_id'];
         $res = $connection->row("SELECT * FROM users WHERE user_id= {$res1[0]['user_id']}");
         if ($res[0]['notific'] == 'Activated') {
             $this->emailnotific($res[0]['email']);
         }
+        echo $comment;
     }
     public function emailnotific($email){
         $encoding = "utf-8";
@@ -421,5 +421,8 @@ class UserController extends Controller
                 </html>';
         // Send mail
         mail($email, $mail_subject, $mail_message, $header);
+    }
+    public function yourphotosAction(){
+        $this->view->render('yourphotos');
     }
 }

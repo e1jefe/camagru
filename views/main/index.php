@@ -30,15 +30,13 @@
                 </form>
 
                      <div data-post-id="<?=$post['id_pic'] ?>" class="comments">
-                         <p> <textarea readonly cols="40" rows="3" style="resize: none; background-color: #F0FFFF; border: none"> <?= $vars['comment'][0]['comment']?> </textarea></p>
+                         <p> <textarea readonly cols="40" rows="3" style="resize: none; background-color: #F0FFFF; border: none"> <?php $vars['comment'][0]['comment']?> </textarea></p>
                          <a href="#" title="Add comment" class="add-comment">
                             <img src="/public/images/comm.png">
                          </a>
                          <div style="display: none;">
-<!--                             <form data-id="--><?//=$post['id_pic'] ?><!--" action="#" style="border:0px solid #888; padding:20px;" method="post" name="form_com" >-->
-                                 <textarea  maxlength="140" placeholder=" enter comment..." name="text" cols="30" rows="2"  style="resize: none"></textarea>
+                             <textarea  maxlength="140" placeholder=" enter comment..." name="text" cols="30" rows="2"  style="resize: none"></textarea>
                                  <input type="submit" name="send" value="Ok" pic-id="<?=$post['id_pic']?>">
-<!--                             </form>-->
                          </div>
                     </div>
                     <?php if(($_SESSION['user_id']) == $post['user_id']): ?>

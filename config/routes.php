@@ -95,5 +95,9 @@ return [
     'deletephoto(.*)' => [
     'controller' => 'user',
     'action' => 'deletephoto',
-    ]
+    ],
+    'user/yourphotos' => [
+        'controller' => 'user',
+        'action' => 'yourphotos',
+    ],
 ];
