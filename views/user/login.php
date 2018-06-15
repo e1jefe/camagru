@@ -13,4 +13,3 @@
         </form>
     </div>
 </section>
-<!--<img src="/public/images/facebook.png">-->

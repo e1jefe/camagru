@@ -30,8 +30,14 @@ class Main extends Model
             ON pics.id_pic = likes.post_id
             WHERE likes.user_id = {$user[0]['user_id']}
          ");
-        $liked_photos = array_column($liked_photos, 'id_pic');
 
-            return ['liked_photos' => $liked_photos, 'posts' => $pics];
+        $comment = $this->db->row ("
+            SELECT pics.id_pic, comments.comment FROM pics
+            LEFT JOIN comments 
+            ON pics.id_pic = comments.id_pic
+            WHERE pics.id_pic = comments.id_pic
+         ");
+        $liked_photos = array_column($liked_photos, 'id_pic');
+            return ['comment' => $comment, 'liked_photos' => $liked_photos, 'posts' => $pics];
         }
 }

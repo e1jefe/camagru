@@ -24,18 +24,21 @@
                         <input type="hidden" name="id_pic" value="<?$post['id_pic'] ?>">
                         <img src="/public/images/<?= in_array($post['id_pic'], $vars['liked_photos']) ? 'like1.png' : 'like2.png' ?>">
                     </a>
+
                     <p><?= $post['likes'] ?></p>
                 </div>
                 </form>
+
                      <div data-post-id="<?=$post['id_pic'] ?>" class="comments">
+                         <p> <textarea readonly cols="40" rows="3" style="resize: none; background-color: #F0FFFF; border: none"> <?= $vars['comment'][0]['comment']?> </textarea></p>
                          <a href="#" title="Add comment" class="add-comment">
                             <img src="/public/images/comm.png">
                          </a>
                          <div style="display: none;">
-                             <form action="comments" style="border:0px solid #888; padding:20px;" method="post" name="form_com" >
-                                 <textarea placeholder=" enter comment..." name="text" cols="30" rows="2"  style="resize: none"></textarea>
-                                 <p><input name="sub_com" type="submit" value="Vjuuhhh"></p>
-                             </form>
+<!--                             <form data-id="--><?//=$post['id_pic'] ?><!--" action="#" style="border:0px solid #888; padding:20px;" method="post" name="form_com" >-->
+                                 <textarea  maxlength="140" placeholder=" enter comment..." name="text" cols="30" rows="2"  style="resize: none"></textarea>
+                                 <input type="submit" name="send" value="Ok" pic-id="<?=$post['id_pic']?>">
+<!--                             </form>-->
                          </div>
                     </div>
                     <?php if(($_SESSION['user_id']) == $post['user_id']): ?>
@@ -62,7 +65,7 @@
             {
                 btn[i].addEventListener('click', like, false);
             };
-            function like(e) {
+            function like() {
                 var item = this.getAttribute('id');
                 var body = "key=" + item;
                 var request = new XMLHttpRequest();
@@ -84,6 +87,33 @@
         </script>
     <?php endif; ?>
 
+<?php if(isset($_SESSION['login'])): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let addcommentButtons = document.getElementsByName('send');
+            for (let i = 0; i < addcommentButtons.length; i++) {
+                addcommentButtons[i].addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var picId = e.target.getAttribute('pic-id');
+                    var msg = e.target.parentElement.firstChild.nextElementSibling.value;
+                    if (msg.length > 0) {
+                        const request = new XMLHttpRequest();
+                        var body = 'commentTxt=' + msg + '&picId=' + picId;
+                        console.log(body);
+                        request.open("POST", "http://localhost:8082/comments", true);
+                        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        request.addEventListener("load", function (event) {
+                            console.log(event.target.responseText);
+                            e.target.parentElement.firstChild.nextElementSibling.value = "";
+                        });
+                        request.send(body);
+                    }
+                    else return false;
+                })
+            }
+        });
+    </script>
+<?php endif; ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let commentButtons = document.getElementsByClassName('add-comment');

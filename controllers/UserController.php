@@ -324,11 +324,7 @@ class UserController extends Controller
         else if(isset($_POST['image'])){
             $img = str_replace('data:image/png;base64,', '', $_POST['image']);
             $img = str_replace(' ', '+', $img);
-//            $path = ROOT . "/public/images/" . $apend;
-//            $path = "/Users/dsheptun/proverki/cam/public/images/lol.png";
-//            $img = explode( ',', $_POST['image']);
             $ifp = fopen($uploadfile , 'wb');
-//            fwrite($ifp, base64_decode($img[1]));
             fclose($ifp);
             $mp = base64_decode($img);
             file_put_contents($uploadfile, $mp);
@@ -339,7 +335,6 @@ class UserController extends Controller
             $y2 = imagesy($img2);
             imagecopyresampled($img1, $img2, 0, 0, 0, 0, $x2, $y2, $x2, $y2);
             imagepng($img1, $uploadfile, 9);
-//            exit;
             $myfile = fopen($uploadfile, 'x');
             fwrite($myfile, $img);
             $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
@@ -392,9 +387,39 @@ class UserController extends Controller
     }
     public function commentsAction(){
         $connection = new Db;
-        $picId = $_POST['key'];
-//        $tmp = $connection->row("SELECT * FROM pics WHERE source='$picLink'");
-//        $pic_id = $tmp[0]['id_pic'];
-        var_dump($picId );
+        $picId = $_POST['picId'];
+        $comment = $_POST['commentTxt'];
+        $connection->query("INSERT INTO comments (id_pic, id_user, comment)VALUES ('$picId',{$_SESSION['user_id']}, '$comment')");
+        $res1 = $connection->row("SELECT * FROM pics WHERE id_pic='$picId'");
+        echo $res1[0]['user_id'];
+        $res = $connection->row("SELECT * FROM users WHERE user_id= {$res1[0]['user_id']}");
+        if ($res[0]['notific'] == 'Activated') {
+            $this->emailnotific($res[0]['email']);
+        }
+    }
+    public function emailnotific($email){
+        $encoding = "utf-8";
+        $mail_subject = "New comment";
+        $from_name = "Camagru";
+        $from_mail = "mail@camagru.dsheptun.live";
+        $subject_preferences = array(
+            "input-charset" => $encoding,
+            "output-charset" => $encoding,
+            "line-length" => 76,
+            "line-break-chars" => "\r\n"
+        );
+        $header = "Content-type: text/html; charset=" . $encoding . " \r\n";
+        $header .= "From: " . $from_name . " <" . $from_mail . "> \r\n";
+        $header .= "MIME-Version: 1.0 \r\n";
+        $header .= "Content-Transfer-Encoding: 8bit \r\n";
+        $header .= "Date: " . date("r (T)") . " \r\n";
+        $header .= iconv_mime_encode("Subject", $mail_subject, $subject_preferences);
+        $mail_message = '<!doctype html> 
+                <html>
+                <p>You have new comment!</p>
+                <p>Camagru support team.</p>
+                </html>';
+        // Send mail
+        mail($email, $mail_subject, $mail_message, $header);
     }
 }
