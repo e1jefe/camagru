@@ -70,22 +70,32 @@ class UserController extends Controller
             $email = $_POST['email'];
             # check login
             if (!preg_match("/^[a-zA-Z0-9]+$/", $login)) {
+                $err = 1;
                 echo "<script>alert(\"Enter latynic char and numbers only\");</script>";
+
             }
             if (strlen($login) < 3 or strlen($login) > 30) {
+                $err = 1;
                 echo "<script>alert(\"Login must be more than 3 and less than 30 char\");</script>";
+
             }
             if (strcmp($_POST['passwd'], $_POST['confpasswd'])) {
+                $err = 1;
                 echo "<script>alert(\"Password does not match\");</script>";
+
             }
             # check matching login
             $res = $connection->row("SELECT * FROM users WHERE user_login='$login'");
             $res2 = $connection->row("SELECT * FROM users WHERE email='$email'");
             if ($res != null || $res2 != null) {
+                $err = 1;
                 echo "<script>alert(\"User with this login/email already register\");</script>";
+
             }
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $err = 1;
             echo "<script>alert(\"Wrong email format\");</script>";
+
             }
             # register if no err
             if (count($err) == 0) {
@@ -244,8 +254,19 @@ class UserController extends Controller
         $this->view->render('account', $res[0]);
         if (isset($_POST['submit'])) {
             $log = ($_POST['login']);
-            $connection->query("UPDATE users SET user_login='$log' WHERE user_id= {$res[0]['user_id']}");
-            $_SESSION['login'] = $_POST['login'];
+            $res1 = $connection->row("SELECT * FROM users WHERE user_login='$log'");
+            if ($res1 == NULL){
+                if (!preg_match("/^[a-zA-Z0-9]+$/", $login)){
+                    if ($log != $res) {
+                        $connection->query("UPDATE users SET user_login='$log' WHERE user_id= {$res[0]['user_id']}");
+                        $_SESSION['login'] = $_POST['login'];
+                        header("Refresh:1; account");
+                    }
+                }
+                echo "<script>alert(\"Wrong login format\");</script>";
+                header("Refresh:1; account");
+            }
+            echo "<script>alert(\"Such login already exist\");</script>";
             header("Refresh:1; account");
         } else
             if (isset($_POST['submit1'])) {
@@ -309,7 +330,7 @@ class UserController extends Controller
                 if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
                     $size = getimagesize($uploadfile);
                     if ($size[0] < 1200 && $size[1] < 5001) {
-                        $connection->query("INSERT INTO pics (source, user_id, likes, comments)VALUES ('$dir$apend',{$_SESSION['user_id']},'0','')");
+                        $connection->query("INSERT INTO pics (source, user_id, likes)VALUES ('$dir$apend',{$_SESSION['user_id']},'0')");
                         echo "<script>alert(\"Photo uploaded\");</script>";
                         header("Location: http://localhost:8082");
                         exit;
@@ -388,7 +409,7 @@ class UserController extends Controller
     public function commentsAction(){
         $connection = new Db;
         $picId = $_POST['picId'];
-        $comment = $_POST['commentTxt'];
+        $comment = (($_SESSION['login']). ":  ". ($_POST['commentTxt']));
         $connection->query("INSERT INTO comments (id_pic, id_user, comment)VALUES ('$picId',{$_SESSION['user_id']}, '$comment')");
         $res1 = $connection->row("SELECT * FROM pics WHERE id_pic='$picId'");
         $res = $connection->row("SELECT * FROM users WHERE user_id= {$res1[0]['user_id']}");

@@ -13,50 +13,62 @@
         <div class="middle">
             <div class="picture-post">
             <?php foreach ($vars['posts'] as $post): ?>
+
+<!--                --><?php //die("<pre>" . print_r($vars, true) . "</pre>"); ?>
                 <p> <b> <?= $post['user_login'] ?></b></p>
             <div class="hovergallery">
                 <img src=" <?php echo $post['source']; ?> " alt="">
-                </div>
+            </div>
+
                 <?php if(isset($_SESSION['login'])): ?>
+                <div class="comment-section">
+
                 <form action="likecounter" method="post" name="like">
                 <div class="like-holder">
                     <a class="likes" id="<?=$post['id_pic'] ?>">
                         <input type="hidden" name="id_pic" value="<?$post['id_pic'] ?>">
                         <img src="/public/images/<?= in_array($post['id_pic'], $vars['liked_photos']) ? 'like1.png' : 'like2.png' ?>">
                     </a>
-
                     <p><?= $post['likes'] ?></p>
                 </div>
                 </form>
-
                      <div data-post-id="<?=$post['id_pic'] ?>" class="comments">
-                         <p> <textarea readonly cols="40" rows="3" style="resize: none; background-color: #F0FFFF; border: none"> <?php $vars['comment'][0]['comment']?> </textarea></p>
+                         <textarea readonly cols="35" rows="3" style="resize: none; background-color: #F0FFFF; border: none">
+                             <?php foreach ($vars['comment'] as $comment): ?>
+                                 <?php if ($comment['id_pic'] == $post['id_pic']): ?>
+                                <?php echo $comment['comment']; ?>
+                                    <?php endif; ?>
+                            <?php endforeach; ?>
+                         </textarea>
                          <a href="#" title="Add comment" class="add-comment">
                             <img src="/public/images/comm.png">
                          </a>
                          <div style="display: none;">
-                             <textarea  maxlength="140" placeholder=" enter comment..." name="text" cols="30" rows="2"  style="resize: none"></textarea>
+                             <textarea  maxlength="140" placeholder=" enter comment..." name="text" cols="25" rows="2"  style="resize: none"></textarea>
                                  <input type="submit" name="send" value="Ok" pic-id="<?=$post['id_pic']?>">
                          </div>
                     </div>
+                </div>
                     <?php if(($_SESSION['user_id']) == $post['user_id']): ?>
                         <div id="" class="deletephoto">
                             <a href="deletephoto?id_pic=<?=$post['id_pic'] ?>" title="Add comment" class="del-photo">
                                 <img src="/public/images/delete.png">
                             </a>
                         </div>
+
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endforeach; ?>
+
             </div>
             <pre>
-
             </pre>
         </div>
         <div class="right"></div>
     </div>
 
     <?php if(isset($_SESSION['login'])): ?>
+
         <script>
             const btn = document.getElementsByClassName('likes');
             for (i=0;i<btn.length;i++)
@@ -86,6 +98,7 @@
     <?php endif; ?>
 
 <?php if(isset($_SESSION['login'])): ?>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let addcommentButtons = document.getElementsByName('send');
@@ -111,7 +124,9 @@
             }
         });
     </script>
+
 <?php endif; ?>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let commentButtons = document.getElementsByClassName('add-comment');

@@ -18,9 +18,9 @@
                 <?php echo $_SESSION['login']?>
                 </b>
             </a>
-            <a href="http://localhost:8082/user/yourphotos">
-                Your photos
-            </a>
+<!--            <a href="http://localhost:8082/user/yourphotos">-->
+<!--                Your photos-->
+<!--            </a>-->
             <a href="http://localhost:8082/user/logout">
                 Logout
             </a>
