@@ -1,6 +1,17 @@
 * { padding: 0; margin: 0; }
 body { background: #F0FFFF; letter-spacing: 1px;}
 
+@media (max-width: 500px) {
+    header nav {
+        display: block;
+        width: 50%;
+        margin-top: 3%;
+        margin-left: auto;
+        margin-right: auto;
+        /*height: 10vw;*/
+    }
+}
+
 header {
     text-align: justify;
     padding: 0.5em 1%;
@@ -66,7 +77,7 @@ h1 a{
 
 @media screen and (max-width: 720px){
     header {
-        height: auto;
+        height: 40%;
     }
 
     header ,
@@ -78,11 +89,6 @@ h1 a{
         text-align: center;
     }
 }
-
-
-/*img{*/
-    /*width: 80%;*/
-/*}*/
 
 footer.container {
     padding: 0 10px;
@@ -152,22 +158,12 @@ footer.container {
     opacity: 1;
 }
 .main {
-   margin-top:20vw;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    min-height: 100px;
+        margin-top: 18vw;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        min-height: 100px;
 }
-/*.main .left{*/
-    /*width: 10%;*/
-    /*background-color: #F0FFFF;*/
-/*}*/
-/*.main .right {*/
-    /*width: 0%;*/
-    /*background-color: #F0FFFF;*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-/*}*/
 .main .middle {
     width: 50%;
     flex-direction: column;
@@ -180,17 +176,11 @@ footer.container {
     opacity: 0.7;
 }
 .main .deletephoto img {
-    width: 3%;
-    opacity: 0.5;
+    width: 7%;
+    opacity: 0.4;
+
 }
 .main .picture-post{
-    /*width: 500px;	height: 500px; !* Размеры *!*/
-    /*!*background: #fc0; !* Цвет фона *!*!*/
-    /*outline: 2px solid #000; !* Чёрная рамка *!*/
-    /*border: 3px solid #fff; !* Белая рамка *!*/
-    /*border-radius: 10px; !* Радиус скругления *!*/
-    /*padding-right: 5%;*/
-    /*padding-left: 5%;*/
     width: 100%;
 }
 .comment-section {
@@ -296,17 +286,9 @@ a.photo:hover img{
     transition: all 0.3 ease;
     cursor: pointer;
 }
+.form img{
+    width: 45%
+}
 .form button:hover,.form button:active,.form button:focus {
     background: #2c3e50;
-}
-
-@media (max-width: 767px) {
-    header nav{
-        display: block;
-        width: 40%;
-        margin-top: 3%;
-        margin-left: auto;
-        margin-right: auto;
-        /*height: 10vw;*/
-    }
 }

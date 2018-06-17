@@ -68,6 +68,8 @@ class UserController extends Controller
             $err = array();
             $login = $_POST['login'];
             $email = $_POST['email'];
+            $pa = $_POST['passwd'];
+//            die("<pre>" . print_r($passwd, true) . "</pre>");
             # check login
             if (!preg_match("/^[a-zA-Z0-9]+$/", $login)) {
                 $err = 1;
@@ -77,6 +79,16 @@ class UserController extends Controller
             if (strlen($login) < 3 or strlen($login) > 30) {
                 $err = 1;
                 echo "<script>alert(\"Login must be more than 3 and less than 30 char\");</script>";
+
+            }
+            if ((strlen($pa) < 6) OR (strlen($pa) > 20 )) {
+                $err = 1;
+                echo "<script>alert(\"Password must be more than 6 characters\");</script>";
+
+            }
+            if (!preg_match('/[A-Z]+/', $pa)) {
+                $err = 1;
+                echo "<script>alert(\"Password must be with uppercase\");</script>";
 
             }
             if (strcmp($_POST['passwd'], $_POST['confpasswd'])) {
@@ -138,7 +150,7 @@ class UserController extends Controller
                 header("Location: login");
                 exit();
             } else
-                echo "<script>alert(\"Password will be more than 7 characters\");</script>";
+                echo "<script>alert(\"Try again\");</script>";
         }
     }
 
@@ -296,7 +308,7 @@ class UserController extends Controller
         $connection = new Db;
         $login = $_SESSION['login'];
         if (isset($_POST['submit'])) {
-            if (mb_strlen($_POST['pass']) >= 7 && mb_strlen($_POST['pass']) < 20) {
+            if (mb_strlen($_POST['pass']) >= 7 && mb_strlen($_POST['pass']) < 20 && preg_match('/[A-Z]+/', $_POST['pass'])) {
                 $pas = (hash('whirlpool', ($_POST['passwd'])));
                 $pass = (hash('whirlpool', ($_POST['pass'])));
                 $newpass = (hash('whirlpool', ($_POST['newpass'])));
@@ -354,7 +366,6 @@ class UserController extends Controller
             $img2 = imagecreatefrompng($sticker);
             $x2 = imagesx($img2);
             $y2 = imagesy($img2);
-            imagecopyresampled($img1, $img2, 0, 0, 0, 0, $x2, $y2, $x2, $y2);
             imagepng($img1, $uploadfile, 9);
             $myfile = fopen($uploadfile, 'x');
             fwrite($myfile, $img);
