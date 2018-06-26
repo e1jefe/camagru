@@ -23,7 +23,7 @@ class Main extends Model
             ON pics.user_id = users.user_id
             ORDER BY pics.id_pic DESC
         ");
-
+if(isset($_SESSION['login'])) {
         $liked_photos = $this->db->row("
             SELECT pics.id_pic FROM pics 
             LEFT JOIN likes 
@@ -32,7 +32,10 @@ class Main extends Model
          ");
         $comment = $this->db->row ("SELECT * FROM comments ");
 
+
         $liked_photos = array_column($liked_photos, 'id_pic');
+}
             return ['comment' => $comment, 'liked_photos' => $liked_photos, 'posts' => $pics];
-        }
+        
+    }
 }

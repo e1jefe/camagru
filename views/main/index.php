@@ -3,7 +3,7 @@
         <div class="left">
             <?php if(isset($_SESSION['login'])): ?>
             <div class="btn-photo">
-                <a class="btn-photo" onclick="" href="http://localhost:8082/photo">
+                <a class="btn-photo" onclick="" href="https://camagru.dsheptun.live/photo">
                     <img src="/public/images/camera.png">
                 </a>
             </div>
@@ -13,8 +13,6 @@
         <div class="middle">
             <div class="picture-post">
             <?php foreach ($vars['posts'] as $post): ?>
-
-<!--                --><?php //die("<pre>" . print_r($vars, true) . "</pre>"); ?>
                 <p> <b> <?= $post['user_login'] ?></b></p>
             <div class="hovergallery">
                 <img src=" <?php echo $post['source']; ?> " alt="">
@@ -79,7 +77,7 @@
                 var item = this.getAttribute('id');
                 var body = "key=" + item;
                 var request = new XMLHttpRequest();
-                request.open("POST", "http://localhost:8082/likecounter", true);
+                request.open("POST", "https://camagru.dsheptun.live/likecounter", true);
                 request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 request.addEventListener("load", function(event) {
                     console.log(event.target.responseText);
@@ -111,7 +109,7 @@
                         const request = new XMLHttpRequest();
                         var body = 'commentTxt=' + msg + '&picId=' + picId;
                         console.log(body);
-                        request.open("POST", "http://localhost:8082/comments", true);
+                        request.open("POST", "https://camagru.dsheptun.live/comments", true);
                         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         request.addEventListener("load", function (event) {
                             console.log(event.target.responseText);

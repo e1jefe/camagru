@@ -69,7 +69,6 @@ class UserController extends Controller
             $login = $_POST['login'];
             $email = $_POST['email'];
             $pa = $_POST['passwd'];
-//            die("<pre>" . print_r($passwd, true) . "</pre>");
             # check login
             if (!preg_match("/^[a-zA-Z0-9]+$/", $login)) {
                 $err = 1;
@@ -141,7 +140,7 @@ class UserController extends Controller
                 $mail_message = ' <!doctype html> <html>
                 <p>Hi,</p>
                 <p>Thanks for register.</p>
-                <p>Pls, activate your account via this <a href="http://localhost:8082/user/emailVerification?login=' . $login . '&token=' . $token . '">link</a></p>
+                <p>Pls, activate your account via this <a href="https://camagru.dsheptun.live/user/emailVerification?login=' . $login . '&token=' . $token . '">link</a></p>
                 <p>Best regards! Camagru team.</p>
                 </html>';
                 // Send mail
@@ -186,7 +185,7 @@ class UserController extends Controller
                 $header .= iconv_mime_encode("Subject", $mail_subject, $subject_preferences);
                 $mail_message = ' <!doctype html> <html>
                 <p>Hi,</p>
-                <p>Follow this <a href="http://localhost:8082/user/changepassmail?email=' . $email . '&token=' . $token . '">link</a> for recover password.</p>
+                <p>Follow this <a href="https://camagru.dsheptun.live/user/changepassmail?email=' . $email . '&token=' . $token . '">link</a> for recover password.</p>
                 <p>If you did not want to change the password, ignore this email.</p>
                 <p>Camagru support team.</p>
                 </html>';
@@ -260,26 +259,26 @@ class UserController extends Controller
 
     public function accountAction()
     {
+        if(isset($_SESSION['login'])){
         $connection = new Db;
         $login = $_SESSION['login'];
         $res = $connection->row("SELECT * FROM users WHERE user_login='$login'");
         $this->view->render('account', $res[0]);
         if (isset($_POST['submit'])) {
-            $log = ($_POST['login']);
+            if (preg_match('/[a-zA-Z0-9]+/', $_POST['login'])) {
+            $log = $_POST['login'];
             $res1 = $connection->row("SELECT * FROM users WHERE user_login='$log'");
-            if ($res1 == NULL){
-                if (!preg_match("/^[a-zA-Z0-9]+$/", $login)){
-                    if ($log != $res) {
-                        $connection->query("UPDATE users SET user_login='$log' WHERE user_id= {$res[0]['user_id']}");
-                        $_SESSION['login'] = $_POST['login'];
-                        header("Refresh:1; account");
-                    }
+            if ($res1 == NULL) {
+                if ($log != $res) {
+                    $connection->query("UPDATE users SET user_login='$log' WHERE user_id= {$res[0]['user_id']}");
+                    $_SESSION['login'] = $_POST['login'];
+                    header("Refresh:1; account");
                 }
-                echo "<script>alert(\"Wrong login format\");</script>";
-                header("Refresh:1; account");
-            }
-            echo "<script>alert(\"Such login already exist\");</script>";
+            } else
+                echo "<script>alert(\"Such login already exist\");</script>";
             header("Refresh:1; account");
+        }
+        else echo "<script>alert(\"Wrong login format\");</script>";
         } else
             if (isset($_POST['submit1'])) {
                 $email = ($_POST['email']);
@@ -300,10 +299,11 @@ class UserController extends Controller
                         $connection->query("UPDATE users SET notific='Deactivated' WHERE user_id= {$res[0]['user_id']}");
                         header("Refresh:1; account");
                     }
+                }
     }
 
     public function changepassAction()
-    {
+    {if(isset($_SESSION['login'])){
         $this->view->render('changepass');
         $connection = new Db;
         $login = $_SESSION['login'];
@@ -329,11 +329,12 @@ class UserController extends Controller
             echo "<script>alert(\"Password will be more than 7 characters\");</script>";
         }
     }
+    }
 
     public function uploadphotoAction()
-    {
+    {if(isset($_SESSION['login'])){
         $connection = new Db;
-        $uploaddir = '/Users/dsheptun/proverki/cam/public/images/'; // это папка, в которую будет загружаться картинка
+        $uploaddir = '/var/www/camagru/public/images/'; // это папка, в которую будет загружаться картинка
         $dir = '/public/images/';
         $apend=date('YmdHis').rand(100,1000).'.png';
         $uploadfile = $uploaddir . $apend;
@@ -344,7 +345,7 @@ class UserController extends Controller
                     if ($size[0] < 1200 && $size[1] < 5001) {
                         $connection->query("INSERT INTO pics (source, user_id, likes)VALUES ('$dir$apend',{$_SESSION['user_id']},'0')");
                         echo "<script>alert(\"Photo uploaded\");</script>";
-                        header("Location: http://localhost:8082");
+                        header("Location: https://camagru.dsheptun.live/");
                         exit;
                     } else {
                         echo "<script>alert(\"Размер пикселей превышает допустимые нормы (ширина не более - 600 пикселей, высота не более 5000)\");</script>";
@@ -357,8 +358,7 @@ class UserController extends Controller
         else if(isset($_POST['image'])){
             $img = str_replace('data:image/png;base64,', '', $_POST['image']);
             $img = str_replace(' ', '+', $img);
-            $ifp = fopen($uploadfile , 'wb');
-            fclose($ifp);
+
             $mp = base64_decode($img);
             file_put_contents($uploadfile, $mp);
             $sticker = $_POST['stick'];
@@ -367,19 +367,17 @@ class UserController extends Controller
             $x2 = imagesx($img2);
             $y2 = imagesy($img2);
             imagepng($img1, $uploadfile, 9);
-            $myfile = fopen($uploadfile, 'x');
-            fwrite($myfile, $img);
             $connection->query("INSERT INTO pics (source, user_id, likes)VALUES ('$dir$apend',{$_SESSION['user_id']},'0')");
-            fclose($myfile);
-            header("Location: http://localhost:8082");
+
         } else {echo "<script>alert(\"File didn't upload\");</script>";}
+    }
     }
 
     public function likecounterAction(){
+        if(isset($_SESSION['login'])){
         $connection = new Db;
         $picLink = $_POST['key'];
         $tmp = $connection->row("SELECT * FROM pics WHERE id_pic='$picLink'");
-//        $likeAmount = $tmp[0]['likes'];
         $pic_id = $tmp[0]['id_pic'];
         $likeArr = $connection->row("SELECT * FROM likes WHERE post_id='$pic_id'");
         $login = $_SESSION['login'];
@@ -406,18 +404,22 @@ class UserController extends Controller
         $tmp = $connection->row("SELECT * FROM pics WHERE id_pic='$picLink'");
         echo $tmp[0]['likes'];
     }
+    }
     public function photoAction(){
         $this->view->render('photo');
     }
     public function deletephotoAction(){
+        if(isset($_SESSION['login'])){
         $connection = new Db;
         $picId = $_GET['id_pic'];
         $connection->query("DELETE FROM pics WHERE id_pic='$picId'");
         $connection->query("DELETE FROM likes WHERE id_pic='$picId'");
         $connection->query("DELETE FROM comments WHERE id_pic='$picId'");
-        header("Location: http://localhost:8082");
+        header("Location: https://camagru.dsheptun.live");
+    }
     }
     public function commentsAction(){
+        if(isset($_SESSION['login'])){
         $connection = new Db;
         $picId = $_POST['picId'];
         $comment = (($_SESSION['login']). ":  ". ($_POST['commentTxt']));
@@ -429,7 +431,9 @@ class UserController extends Controller
         }
         echo $comment;
     }
+    }
     public function emailnotific($email){
+        if(isset($_SESSION['login'])){
         $encoding = "utf-8";
         $mail_subject = "New comment";
         $from_name = "Camagru";
@@ -454,7 +458,9 @@ class UserController extends Controller
         // Send mail
         mail($email, $mail_subject, $mail_message, $header);
     }
+    }
     public function yourphotosAction(){
         $this->view->render('yourphotos');
     }
+
 }

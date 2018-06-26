@@ -90,7 +90,6 @@
             document.getElementById('snapshot').onclick = function () {
                 var video = document.querySelector('video');
                 var canvas = document.getElementById('canvas');
-//                var stick = document.getElementById('place');
                 var stick = window.localStorage.globalVar;
                 var img = new Image();
                 img.src = stick;
@@ -101,7 +100,7 @@
 
                 var img = canvas.toDataURL('image/png');
                 var request = new XMLHttpRequest();
-                request.open("POST", "http://localhost:8082/uploadphoto", true);
+                request.open("POST", "https://camagru.dsheptun.live/uploadphoto", true);
                 request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 var body = 'image=' + img + '&stick=' + stick;
                 request.send(body);

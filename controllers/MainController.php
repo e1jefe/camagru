@@ -8,7 +8,6 @@ class MainController extends Controller {
      *
      */
     public function indexAction() {
-        //$pagination = new Pagination($this->route, $this->model->postsCount());
         $vars = $this->model->getPics();
         $this->view->render('index', $vars);
 

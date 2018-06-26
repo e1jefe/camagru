@@ -13,19 +13,16 @@
     <nav>
         <?php if(isset($_SESSION['login'])): ?>
             <a>Hi,</a>
-            <a href="http://localhost:8082/user/account">
+            <a href="https://camagru.dsheptun.live/user/account">
                 <b>
                 <?php echo $_SESSION['login']?>
                 </b>
             </a>
-<!--            <a href="http://localhost:8082/user/yourphotos">-->
-<!--                Your photos-->
-<!--            </a>-->
-            <a href="http://localhost:8082/user/logout">
+            <a href="https://camagru.dsheptun.live/user/logout">
                 Logout
             </a>
         <?php else: ?>
-            <a href="http://localhost:8082/user/login">Log in</a>
+            <a href="https://camagru.dsheptun.live/user/login">Log in</a>
         <?php endif; ?>
     </nav>
 </header>
@@ -34,7 +31,7 @@
     <div class="copyrights">
         <p>
             © 2018 Camagru. All rights reserved by dsheptun.
-            <a href="http://localhost:8082/main/privacy">Privacy policy</a>
+            <a href="https://camagru.dsheptun.live/main/privacy">Privacy policy</a>
         </p>
            </div>
     <div class="btn-home">
