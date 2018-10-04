@@ -18,7 +18,7 @@ header {
     background: #2c3e50;
     color: #fff;
     position: fixed;
-    height: 6vw;
+    height: 58px;
     z-index: 10000;
     width: 100%;
     top: 0;
@@ -110,6 +110,8 @@ footer.container {
 .btn-photo a img {
     width: 100%;
     display: block;
+    margin: 10px;
+
 }
 .btn-photo:hover {
     opacity: 1;
@@ -117,15 +119,12 @@ footer.container {
 .btn-folder{
     position: fixed;
     top:20%;
-    left: 2%;
     display: inline-block;
     width: 70px;
     height: 30px;
-    opacity: 0.3;
-    /*display: none;*/
+    margin: 20px;
 }
 .btn-folder a img {
-    /*display: block;*/
     width: 80px;
     cursor: pointer;
 }
@@ -137,13 +136,10 @@ footer.container {
     bottom: 2%;
     display: inline-block;
     right: 5%;
-    /*display: flex;*/
     width: 40px;
     opacity: 0.3;
 }
 .btn-home a {
-    /*display: flex;*/
-    /*flex-direction: column;*/
     width: 100%;
 }
 .btn-home a img {
@@ -210,7 +206,6 @@ a.photo:hover img{
 
 .hovergallery {
     width: 100%;
-    /*padding-right: 20px;*/
 }
 
 .hovergallery img:hover{
@@ -236,8 +231,8 @@ a.photo:hover img{
 #snapshot{
     position: fixed;
     top:16%;
-    left: 2%;
     display: inline-block;
+    margin: 30px;
 }
 
 .sign-in {

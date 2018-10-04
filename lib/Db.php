@@ -6,7 +6,7 @@ class Db {
 
     public function __construct() {
         $config = require 'config/database.php';
-        $this->db = new PDO("mysql:host=localhost; dbname=dbtest", 'root', 'tel9581590');
+        $this->db = new PDO("mysql:host=localhost; dbname=dbtest", 'root', 'qwerty');
     }
     public function query($sql, $params = []) {
         $stmt = $this->db->prepare($sql);

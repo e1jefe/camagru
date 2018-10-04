@@ -46,13 +46,13 @@
                                  <input type="submit" name="send" value="Ok" pic-id="<?=$post['id_pic']?>">
                          </div>
                     </div>
-                </div>
                     <?php if(($_SESSION['user_id']) == $post['user_id']): ?>
-                        <div id="" class="deletephoto">
-                            <a href="deletephoto?id_pic=<?=$post['id_pic'] ?>" title="Add comment" class="del-photo">
-                                <img src="/public/images/delete.png">
-                            </a>
-                        </div>
+                    <div id="" class="deletephoto">
+                        <a href="deletephoto?id_pic=<?=$post['id_pic'] ?>" title="Add comment" class="del-photo">
+                            <img src="/public/images/delete.png">
+                        </a>
+                    </div>
+                </div>
 
                     <?php endif; ?>
                 <?php endif; ?>
